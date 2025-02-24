@@ -37,7 +37,7 @@ protected:
 template <typename T>
 class Subject : public impl::SubjectBase, public Observable<T> {
 public:
-    Subject() : SubjectBase(), Observable<T>(createSubscriberFunc()) {}
+    Subject() : SubjectBase(), Observable<T>(createOnSubscribe()) {}
     
     /**
      * @brief Emit a new value to all subscribers.
@@ -58,11 +58,11 @@ public:
     }
 
 private:
-    std::function<impl::SharedObserver(const Observer<T>&)> createSubscriberFunc() {
-        return [subscribers = this->subscribers](const Observer<T>& observer) {
+    std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
+        return [subscribers = this->subscribers](const Observer<T>& observer) -> Subscription {
             auto sharedObserver = std::make_shared<Observer<T>>(observer);
             subscribers->push_back(sharedObserver);
-            return sharedObserver;
+            return impl::SubscriptionFactory(sharedObserver);
         };
     }
 };

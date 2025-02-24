@@ -1,6 +1,5 @@
 #pragma once
 
-#include "observer.hpp"
 #include "subscription.hpp"
 
 
@@ -23,13 +22,53 @@ public:
      * 
      * The subscriber function is responsible for emitting values to the provided observer.
      * 
-     * @param subscriberFunc A function that takes an `Observer<T>` and defines how values are emitted.
+     * @param onSubscribe A function that takes an `Observer<T>` and defines how values are emitted.
      */
-    Observable(std::function<void(const Observer<T>&)> subscriberFunc)
-        : subscriberFunc([subscriberFunc] (const Observer<T>& observer) {
-            subscriberFunc(observer);
-            return std::make_shared<Observer<T>>(observer);
+    explicit Observable(std::function<void(const Observer<T>&)> onSubscribe)
+        : onSubscribe([onSubscribe](const Observer<T>& observer) -> Subscription {
+            onSubscribe(observer);
+            return impl::SubscriptionFactory(std::make_shared<Observer<T>>(observer));
         }) {}
+
+    /**
+     * @brief Creates an observable that emits a single value and then completes.
+     * 
+     * This function returns an observable that emits the provided value `t` and then signals completion.
+     * 
+     * @param value The value to be emitted by the observable.
+     * @return Observable<T> An observable that emits a single value and then completes.
+     */
+    static Observable<T> of(T value) {
+        std::function<impl::SharedObserver(const Observer<T>& observer)> onSubscribe = [value](const Observer<T>& observer) {
+            observer.next(value);
+            observer.complete();
+            return nullptr;
+        };
+    
+        return Observable<T>(onSubscribe);
+    }
+
+    /**
+     * @brief Creates an observable that emits a sequence of values from a vector.
+     * 
+     * This function returns an observable that emits each value in the provided vector `ts`
+     * sequentially and then signals completion.
+     * 
+     * @param values A vector of values to be emitted by the observable.
+     * @return Observable<T> An observable that emits all values from the vector and then completes.
+     */
+    static Observable<T> from(std::vector<T> values) {
+        std::function<impl::SharedObserver(const Observer<T>& observer)> onSubscribe = [values](const Observer<T>& observer) {
+            for (const auto& t : values) {
+                observer.next(t);
+            }
+    
+            observer.complete();
+            return nullptr;
+        };
+    
+        return Observable<T>(onSubscribe);
+    }
 
     /**
      * @brief Subscribes an observer to the observable.
@@ -40,50 +79,64 @@ public:
      * @param subscriber The observer that will receive emitted values.
      * @return Subscription An object representing the active subscription.
      */
-    Subscription subscribe(Observer<T> subscriber) {
-        class SubscriptionCreator : public Subscription {
-        public:
-            SubscriptionCreator(impl::SharedObserver sharedObserver) : Subscription(std::move(sharedObserver)) {}
-        };
-
-        auto sharedObserver = subscriberFunc(subscriber);
-        return SubscriptionCreator(sharedObserver);
+    Subscription subscribe(Observer<T> subscriber) const {
+        return onSubscribe(subscriber);
     }
 
     /**
-     * @brief Transforms the values emitted by this observable using a mapping function.
+     * @brief Subscribes an observer to the observable.
      * 
-     * The `map` operator applies the given function to each emitted value, 
-     * creating a new `Observable<U>` with transformed values.
+     * When an observer subscribes, the observable starts emitting values to it.
+     * The returned `Subscription` can be used to unsubscribe from the observable.
      * 
-     * @tparam U The type of values emitted by the new observable.
-     * @param mapper A function that converts values of type `T` to type `U`.
-     * @return Observable<U> A new observable that emits transformed values.
+     * @param onNext The function that will receive emitted values.
+     * @return Subscription An object representing the active subscription.
      */
-    template <typename U>
-    Observable<U> map(std::function<U(T)> mapper) {
-        std::function<impl::SharedObserver(const Observer<T>&)> mappedSubscriber = [this, mapper](const Observer<T>& observer) {
-            Observer<T> intermediateObserver(
-                [&mapper, sharedObserver = std::make_shared<Observer<T>>(observer)](const T& t) {
-                    Observer<U>& observer = sharedObserver->template as<Observer<U>>();
-                    observer.next(mapper(t)); 
-                }
-            );
-    
-            auto sharedIntermediateObserver = std::make_shared<Observer<T>>(intermediateObserver);
-            subscriber(sharedIntermediateObserver);
-            return sharedIntermediateObserver;
-        };
-    
-        return Observable<U>(mappedSubscriber);
+    Subscription subscribe(std::function<void(T)> onNext) const {
+        return onSubscribe(Observer(onNext));
+    }
+
+    /**
+     * @brief Applies a sequence of operators to the observable.
+     * 
+     * The `pipe` function allows chaining multiple transformation functions
+     * that operate on the observable.
+     *
+     * @param first The first function to apply.
+     * @param rest Additional functions to apply.
+     * @return The transformed observable or final result after applying all functions.
+     */
+    template <typename First, typename... Rest>
+    requires std::is_invocable_v<First, Observable<T>&>
+    auto pipe(First&& first, Rest&&... rest) {
+        if constexpr (sizeof...(rest) == 0) {
+            return std::forward<First>(first)(*this);
+        } else {
+            return std::forward<First>(first)(*this).pipe(std::forward<Rest>(rest)...);
+        }
     }
 
 protected:
-    Observable(std::function<impl::SharedObserver(const Observer<T>&)> subscriberFunc)
-        : subscriberFunc(std::move(subscriberFunc)) {}
+    std::function<Subscription(const Observer<T>&)> onSubscribe;
 
-private:
-    std::function<impl::SharedObserver(const Observer<T>&)> subscriberFunc;
+    Observable(std::function<Subscription(const Observer<T>&)> onSubscribe)
+        : onSubscribe(std::move(onSubscribe)) {}
 };
+
+/**
+ * @brief Contains implementation details.
+ * 
+ * Users of RxLite should not need to interact with this directly.
+ */
+namespace impl {
+
+template <typename T>
+class ObservableFactory : public Observable<T> {
+public:
+    ObservableFactory(std::function<Subscription(const Observer<T>&)> onSubscribe)
+        : Observable<T>(std::move(onSubscribe)) {} 
+};
+
+} // namespace impl
 
 } // namespace RxLite

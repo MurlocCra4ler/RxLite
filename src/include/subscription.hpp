@@ -17,20 +17,6 @@ namespace RxLite {
  * A `Subscription` may also contain child subscriptions, allowing grouped disposal of multiple
  * subscriptions at once.
  */
-class Subscription;
-
-/**
- * @brief Contains implementation details.
- * 
- * Users of RxLite should not need to interact with this directly.
- */
-namespace impl {
-
-class Subscription;
-using SharedSubscription = std::shared_ptr<Subscription>;
-
-}
-
 class Subscription {
 public:
     /**
@@ -73,5 +59,19 @@ private:
     impl::SharedObserver subscriber;
     std::vector<Subscription> subscriptions;
 };
+
+/**
+ * @brief Contains implementation details.
+ * 
+ * Users of RxLite should not need to interact with this directly.
+ */
+namespace impl {
+
+class SubscriptionFactory : public Subscription {
+public:
+    SubscriptionFactory(impl::SharedObserver subscriber) : Subscription(subscriber) {} 
+};
+
+} // namespace impl
 
 } // namespace RxLite
