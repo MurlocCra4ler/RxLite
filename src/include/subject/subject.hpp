@@ -24,12 +24,29 @@ class Subject;
  * Users of RxLite should not need to interact with this directly.
  */
 namespace impl {
-
+ 
 class SubjectBase {
 protected:
     const std::shared_ptr<std::list<impl::SharedObserver>> subscribers;
 
     SubjectBase() : subscribers(std::make_shared<std::list<impl::SharedObserver>>()) {}
+
+    template <typename T>
+    void broadcastValue(T& value) const {
+        removeInactiveSubscribers();
+
+        for (const auto& subscriber : *this->subscribers) {
+            const auto& observer = subscriber->template as<Observer<T>>();
+            observer.next(value);
+        }
+    }
+
+private:
+    void removeInactiveSubscribers() const {
+        this->subscribers->remove_if([](const impl::SharedObserver& subscriber) {
+            return subscriber.use_count() <= 1;
+        });
+    }
 };
 
 } // namespace impl
@@ -47,14 +64,7 @@ public:
      * @param value The new value to broadcast to subscribers.
      */
     void next(T value) const {
-        this->subscribers->remove_if([](const impl::SharedObserver& subscriber) {
-            return subscriber.use_count() <= 1;
-        });
-
-        for (const auto& subscriber : *this->subscribers) {
-            const auto& observer = subscriber->template as<Observer<T>>();
-            observer.next(value);
-        }
+        broadcastValue(value);
     }
 
 private:

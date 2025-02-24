@@ -1,4 +1,4 @@
 #pragma once
 
 #include "operator.hpp"
-#include "subject/subject.hpp"
+#include "subject/behavior_subject.hpp"
