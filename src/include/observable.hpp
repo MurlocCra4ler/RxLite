@@ -84,19 +84,6 @@ public:
     }
 
     /**
-     * @brief Subscribes an observer to the observable.
-     * 
-     * When an observer subscribes, the observable starts emitting values to it.
-     * The returned `Subscription` can be used to unsubscribe from the observable.
-     * 
-     * @param onNext The function that will receive emitted values.
-     * @return Subscription An object representing the active subscription.
-     */
-    Subscription subscribe(std::function<void(T)> onNext) const {
-        return onSubscribe(Observer(onNext));
-    }
-
-    /**
      * @brief Applies a sequence of operators to the observable.
      * 
      * The `pipe` function allows chaining multiple transformation functions

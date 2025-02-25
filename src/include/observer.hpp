@@ -38,12 +38,12 @@ class ObserverBase {
 public:
     virtual ~ObserverBase() = default;
 
-    void complete() const {
-        onComplete();
+    void error(const std::exception_ptr& err) const {
+        onError(err);
     }
 
-    void error(const std::exception& error) {
-        onError(error);
+    void complete() const {
+        onComplete();
     }
 
     template <typename Derived>
@@ -52,11 +52,11 @@ public:
     }
 
 protected:
-    ObserverBase(std::function<void(const std::exception&)> onError, std::function<void()> onComplete)
+    ObserverBase(std::function<void(const std::exception_ptr&)> onError, std::function<void()> onComplete)
         : onError(std::move(onError)), onComplete(std::move(onComplete)) {}
 
 private:
-    const std::function<void(const std::exception&)> onError;
+    const std::function<void(const std::exception_ptr&)> onError;
     const std::function<void()> onComplete;
 };
     
@@ -75,10 +75,12 @@ public:
      * @param onError (Optional) The callback for handling errors.
      * @param onComplete (Optional) The callback for handling completion.
      */
-    Observer(std::function<void(T)> onNext,
-             std::function<void(const std::exception&)> onError = [](const std::exception&) {},
+    template<typename OnNext>
+    requires std::is_invocable_v<OnNext, const T&>
+    Observer(OnNext&& onNext,
+             std::function<void(const std::exception_ptr&)> onError = [](const std::exception_ptr&) {},
              std::function<void()> onComplete = []() {})
-        : ObserverBase(std::move(onError), std::move(onComplete)), onNext(std::move(onNext)) {}
+        : ObserverBase(std::move(onError), std::move(onComplete)), onNext(std::forward<OnNext>(onNext)) {}
 
     void next(T t) const {
         onNext(t);
