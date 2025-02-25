@@ -36,3 +36,7 @@
 
 # Build files
 build/
+
+# Doxygen
+html
+latex
