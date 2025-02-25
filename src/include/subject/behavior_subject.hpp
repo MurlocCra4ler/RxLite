@@ -57,9 +57,7 @@ private:
         return [subscribers = this->subscribers, latestValue = this->latestValue]
             (const Observer<T>& observer) -> Subscription {
             observer.next(*latestValue);
-            auto sharedObserver = std::make_shared<Observer<T>>(observer);
-            subscribers->push_back(sharedObserver);
-            return impl::SubscriptionFactory(sharedObserver);
+            return impl::SubjectBase::makeSubscription(observer, subscribers);
         };
     }
 };

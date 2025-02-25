@@ -31,6 +31,14 @@ protected:
 
     SubjectBase() : subscribers(std::make_shared<std::list<impl::SharedObserver>>()) {}
 
+    template<typename T>
+    static Subscription makeSubscription(const Observer<T>& observer,
+                                         const std::shared_ptr<std::list<impl::SharedObserver>>& subscribers) {
+        auto sharedObserver = std::make_shared<Observer<T>>(observer);
+        subscribers->push_back(sharedObserver);
+        return impl::SubscriptionFactory(sharedObserver);
+    }
+
     template <typename T>
     void broadcastValue(T& value) const {
         removeInactiveSubscribers();
@@ -70,9 +78,7 @@ public:
 private:
     std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
         return [subscribers = this->subscribers](const Observer<T>& observer) -> Subscription {
-            auto sharedObserver = std::make_shared<Observer<T>>(observer);
-            subscribers->push_back(sharedObserver);
-            return impl::SubscriptionFactory(sharedObserver);
+            return impl::SubjectBase::makeSubscription(observer, subscribers);
         };
     }
 };
