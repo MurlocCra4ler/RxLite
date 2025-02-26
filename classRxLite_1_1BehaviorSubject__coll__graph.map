@@ -1,0 +1,9 @@
+<map id="RxLite::BehaviorSubject&lt; T &gt;" name="RxLite::BehaviorSubject&lt; T &gt;">
+<area shape="rect" id="Node000001" title="A special type of Subject that replays the last emitted value to new subscribers." alt="" coords="116,167,331,192"/>
+<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1BehaviorSubjectBase.html" title=" " alt="" coords="5,79,220,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,125,208,164,205,168,149,129"/>
+<area shape="rect" id="Node000003" href="$classRxLite_1_1impl_1_1SubjectBase.html" title=" " alt="" coords="19,5,207,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,44,115,79,110,79,110,44"/>
+<area shape="rect" id="Node000004" href="$classRxLite_1_1Observable.html" title="Represents a sequence of values over time." alt="" coords="244,86,427,111"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="309,122,241,169,238,164,306,117"/>
+</map>
