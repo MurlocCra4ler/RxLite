@@ -9,7 +9,6 @@ TEST(OperatorTestsuite, OperatorTestsuite) {
             return i*2;
         })
     );
-
     
     int sum = 0;
     RxLite::Subscription subscription = observable.subscribe([&sum](int i) {
