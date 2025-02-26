@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <optional>
 
 #include "observable.hpp"
@@ -17,6 +18,89 @@ namespace RxLite {
  */
 template <typename T, typename U>
 using Operator = std::function<Observable<U>(Observable<T>&)>;
+
+/**
+ * @brief Combines multiple observables and emits tuples containing the latest values.
+ * 
+ * The `combineLatest` operator takes a source observable emitting values of type `T` and 
+ * one or more additional observables emitting values of types `Us...`. It produces an 
+ * observable that emits a tuple containing the latest values from all observables, including 
+ * the source.
+ * 
+ * This operator waits until all observables, including the source, have emitted at least 
+ * one value before emitting its first tuple. Thereafter, it emits a new tuple whenever 
+ * any of the observables (including the source) emits a new value.
+ * 
+ * The resulting observable completes when **all** observables complete. Errors from 
+ * any observable are immediately forwarded to the resulting observable.
+ * 
+ * @tparam T The type of values emitted by the source observable.
+ * @tparam Us The types of values emitted by the additional observables.
+ * @param latestObservables One or more observables whose latest values will be combined with the source.
+ * @return Operator<T, std::tuple<T, Us...>> A function that applies the combination logic to an observable.
+ */
+template <typename T, typename... Us>
+Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservables) {
+    return [latestObservables...](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<std::tuple<T, Us...>>(
+            [sourceObservable, latestObservables...](const Observer<std::tuple<T, Us...>>& observer) {
+                Subscription subscriptions;
+                auto latestValues = std::make_shared<std::tuple<std::optional<T>, std::optional<Us>...>>();
+                auto completedFlags = std::make_shared<std::array<bool, sizeof...(Us) + 1>>();
+
+                auto emitIfReady = [observer, latestValues]() {
+                    if (std::apply([](auto&... values) { return (... && values.has_value()); }, *latestValues)) {
+                        observer.next(std::apply([](auto&... values) {
+                            return std::make_tuple(values.value()...);
+                        }, *latestValues));
+                    }
+                };
+
+                auto completeIfReady = [observer, completedFlags]() {
+                    if (std::apply([](auto... flags) { return (... && flags); }, *completedFlags)) {
+                        observer.complete();
+                    }
+                };
+
+                Observer<T> sourceObserver(
+                    [latestValues, emitIfReady](const T& t) {
+                        std::get<0>(*latestValues) = t;
+                        emitIfReady();
+                    },
+                    [observer](const std::exception_ptr& err) { observer.error(err); },
+                    [completedFlags, completeIfReady]() { 
+                        completedFlags->at(0) = true;
+                        completeIfReady(); 
+                    }
+                );
+                subscriptions.add(sourceObservable.subscribe(sourceObserver));
+
+                auto subscribeLatest = [&]<std::size_t... Is>(std::index_sequence<Is...>) {
+                    (void)std::initializer_list<int>{
+                        (subscriptions.add(
+                            latestObservables.subscribe(
+                                Observer<Us>(
+                                    [latestValues, emitIfReady](const Us& value) {
+                                        std::get<Is + 1>(*latestValues) = value;
+                                        emitIfReady();
+                                    },
+                                    [observer](const std::exception_ptr& err) { observer.error(err); },
+                                    [completedFlags, completeIfReady]() { 
+                                        completedFlags->at(Is + 1) = true;
+                                        completeIfReady(); 
+                                    }
+                                )
+                            )
+                        ), 0)...
+                    };
+                };
+
+                subscribeLatest(std::index_sequence_for<Us...>{});
+                return subscriptions;
+            }
+        );
+    };
+}
 
 /**
  * @brief Transforms values emitted by an observable using a mapping function.
@@ -127,37 +211,5 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
         );
     };
 }
-
-/*
-template <typename T, typename U>
-Operator<T, std::pair<T, U>> withLatestFrom(Observable<U> latestObservable) {
-    return [latestObservable = std::move(latestObservable)](const Observable<T>& sourceObservable) {
-        return impl::ObservableFactory<U>([sourceObservable, latestObservable]
-            (const Observer<std::pair<T, U>>& observer) {
-            std::shared_ptr<std::optional<U>> latestValue = std::make_shared<std::optional<U>>();
-            Observer<U> latestObserver(
-                [latestValue](const U& u) {
-                    *latestValue = u;
-                },
-                [observer](const std::exception_ptr& err) { observer.error(err); }
-            );
-
-            Observer<T> combinedObserver(
-                [observer, latestValue](const T& t) {
-                    if (latestValue->has_value()) {
-                        observer.next({ t, latestValue->value() }); 
-                    }
-                },
-                [observer](const std::exception_ptr& err) { observer.error(err); },
-                [observer]() { observer.complete(); }
-            );
-
-            Subscription subscription;
-            subscription.add(latestObservable.subscribe(latestObserver));
-            subscription.add(sourceObservable.subscribe(combinedObserver));
-            return subscription;
-        });
-    };
-} */
 
 } // namespace RxLite

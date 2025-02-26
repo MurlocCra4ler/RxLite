@@ -49,6 +49,24 @@ protected:
         }
     }
 
+    void broadcastError(const std::exception_ptr& err) {
+        removeInactiveSubscribers();
+
+        for (const auto& subscriber : *this->subscribers) {
+            subscriber->error(err);
+        }
+    }
+
+    void broadcastCompletion() const {
+        removeInactiveSubscribers();
+
+        for (const auto& subscriber : *this->subscribers) {
+            subscriber->complete();
+        }
+
+        this->subscribers->clear();
+    }
+
 private:
     void removeInactiveSubscribers() const {
         this->subscribers->remove_if([](const impl::SharedObserver& subscriber) {
@@ -73,6 +91,29 @@ public:
      */
     void next(T value) const {
         broadcastValue(value);
+    }
+
+    /**
+     * @brief Emits an error to all subscribers.
+     * 
+     * This method notifies all subscribers that an error has occurred, thereby terminating the observable sequence.
+     * After calling `error()`, any subsequent calls to `next()`, `complete()`, or further invocations of `error()`
+     * will have no effect.
+     * 
+     * @param err The exception pointer representing the error to be broadcast to subscribers.
+     */
+    void error(const std::exception_ptr& err) const {
+        broadcastError(err);
+    }
+
+    /**
+     * @brief Completes the observable sequence.
+     * 
+     * This method notifies all subscribers that no more values will be emitted.
+     * After calling `complete()`, any further calls to `next()` or `error()` will have no effect.
+     */
+    void complete() const {
+        broadcastCompletion();
     }
 
 private:

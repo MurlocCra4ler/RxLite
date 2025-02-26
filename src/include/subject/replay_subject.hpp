@@ -66,6 +66,29 @@ public:
         this->history->push_back(value);
     }
 
+    /**
+     * @brief Emits an error to all subscribers.
+     * 
+     * This method notifies all subscribers that an error has occurred, thereby terminating the observable sequence.
+     * After calling `error()`, any subsequent calls to `next()`, `complete()`, or further invocations of `error()`
+     * will have no effect.
+     * 
+     * @param err The exception pointer representing the error to be broadcast to subscribers.
+     */
+    void error(const std::exception_ptr& err) const {
+        this->broadastError(err);
+    }
+
+    /**
+     * @brief Completes the observable sequence.
+     * 
+     * This method notifies all subscribers that no more values will be emitted.
+     * After calling `complete()`, any further calls to `next()` or `error()` will have no effect.
+     */
+    void complete() const {
+        this->broadcastCompletion();
+    }
+
 private:
     std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
         return [subscribers = this->subscribers, history = this->history]
