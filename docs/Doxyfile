@@ -1,0 +1,22 @@
+DOXYFILE_ENCODING       = UTF-8
+
+PROJECT_NAME            = 🪶 RxLite
+
+ENABLE_DOXYGEN = YES
+MARKDOWN_SUPPORT = YES
+EXTENSION_MAPPING = md=markdown
+USE_MDFILE_AS_MAINPAGE  = ../README.md
+
+
+INPUT                   = ../README.md ../src/include/
+
+RECURSIVE               = YES
+EXTRACT_ALL             = YES
+ENABLE_PREPROCESSING    = YES
+EXPAND_ONLY_PREDEF      = YES
+GENERATE_TREEVIEW       = YES
+DISABLE_INDEX           = NO
+FULL_SIDEBAR            = NO
+HTML_EXTRA_STYLESHEET   = doxygen-awesome-css/doxygen-awesome.css \
+                          doxygen-awesome-css/doxygen-awesome-sidebar-only.css
+HTML_COLORSTYLE         = LIGHT
