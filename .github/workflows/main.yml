@@ -11,16 +11,16 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        fetch-depth: 0
         submodules: recursive
-    - name: Doxygen Action
-      uses: mattnotmitt/doxygen-action@v1.1.0
-      with:
-        doxyfile-path: "./docs/Doxyfile"
-        working-directory: "./docs"
+    - name: "Doxygen"
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen
+        cd docs
+        doxygen Doxyfile
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./html
+        publish_dir: ./docs/html
