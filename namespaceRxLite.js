@@ -8,6 +8,7 @@ var namespaceRxLite =
     [ "Subject", "classRxLite_1_1Subject.html", "classRxLite_1_1Subject" ],
     [ "Subscription", "classRxLite_1_1Subscription.html", "classRxLite_1_1Subscription" ],
     [ "Operator", "namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637", null ],
+    [ "combineLatest", "namespaceRxLite.html#abaabcbf791c8b2876794ed154e50b157", null ],
     [ "map", "namespaceRxLite.html#a3e66700c86f5bcea28bd082fcce0f54d", null ],
     [ "withLatestFrom", "namespaceRxLite.html#a73781c8c324ed97cd2477ea65fa50b88", null ]
 ];

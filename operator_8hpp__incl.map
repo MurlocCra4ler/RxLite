@@ -1,19 +1,21 @@
 <map id="/home/runner/work/RxLite/RxLite/src/include/operator.hpp" name="/home/runner/work/RxLite/RxLite/src/include/operator.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="20,93,95,119"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,47,77,84,73,81,102,44"/>
-<area shape="rect" id="Node000003" href="$observable_8hpp.html" title=" " alt="" coords="119,93,241,119"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="136,44,165,81,160,84,131,47"/>
-<area shape="rect" id="Node000004" href="$subscription_8hpp.html" title=" " alt="" coords="115,167,245,192"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="183,119,183,153,177,153,177,119"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="94,240,157,265"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="173,194,145,231,140,228,169,191"/>
-<area shape="rect" id="Node000006" href="$observer_8hpp.html" title=" " alt="" coords="181,240,288,265"/>
-<area shape="poly" id="edge5_Node000004_Node000006" title=" " alt="" coords="191,191,220,228,215,231,187,194"/>
-<area shape="rect" id="Node000007" title=" " alt="" coords="81,313,167,339"/>
-<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="218,268,155,308,152,303,215,263"/>
-<area shape="rect" id="Node000008" title=" " alt="" coords="191,313,278,339"/>
-<area shape="poly" id="edge7_Node000006_Node000008" title=" " alt="" coords="237,266,237,300,232,300,232,266"/>
-<area shape="rect" id="Node000009" title=" " alt="" coords="303,313,380,339"/>
-<area shape="poly" id="edge8_Node000006_Node000009" title=" " alt="" coords="253,263,314,303,311,308,250,268"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="9,5,236,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,93,61,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,48,59,86,55,82,99,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="85,93,160,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="125,46,125,79,120,79,120,46"/>
+<area shape="rect" id="Node000004" href="$observable_8hpp.html" title=" " alt="" coords="184,93,307,119"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="154,43,217,84,214,88,151,48"/>
+<area shape="rect" id="Node000005" href="$subscription_8hpp.html" title=" " alt="" coords="181,167,310,192"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="248,119,248,153,243,153,243,119"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="159,240,222,265"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="238,194,210,231,206,228,234,191"/>
+<area shape="rect" id="Node000007" href="$observer_8hpp.html" title=" " alt="" coords="247,240,353,265"/>
+<area shape="poly" id="edge6_Node000005_Node000007" title=" " alt="" coords="256,191,285,228,281,231,252,194"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="146,313,233,339"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="284,268,221,308,218,303,281,263"/>
+<area shape="rect" id="Node000009" title=" " alt="" coords="257,313,343,339"/>
+<area shape="poly" id="edge8_Node000007_Node000009" title=" " alt="" coords="303,266,303,300,297,300,297,266"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="368,313,445,339"/>
+<area shape="poly" id="edge9_Node000007_Node000010" title=" " alt="" coords="319,263,379,303,376,308,316,268"/>
 </map>

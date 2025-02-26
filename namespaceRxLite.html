@@ -136,6 +136,10 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:abaabcbf791c8b2876794ed154e50b157" id="r_abaabcbf791c8b2876794ed154e50b157"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> , typename... Us&gt; </td></tr>
+<tr class="memitem:abaabcbf791c8b2876794ed154e50b157"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637">Operator</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, std::tuple&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, Us... &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRxLite.html#abaabcbf791c8b2876794ed154e50b157">combineLatest</a> (<a class="el" href="classRxLite_1_1Observable.html">Observable</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">Us</a> &gt;... <a class="el" href="classRxLite_1_1Observable.html">latestObservables</a>)</td></tr>
+<tr class="memdesc:abaabcbf791c8b2876794ed154e50b157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines multiple observables and emits tuples containing the latest values.  <br /></td></tr>
+<tr class="separator:abaabcbf791c8b2876794ed154e50b157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e66700c86f5bcea28bd082fcce0f54d" id="r_a3e66700c86f5bcea28bd082fcce0f54d"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> , <a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">F</a> , <a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">U</a>  = std::invoke_result_t&lt;F, const T&amp;&gt;&gt; </td></tr>
 <tr class="memitem:a3e66700c86f5bcea28bd082fcce0f54d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637">Operator</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, <a class="el" href="classRxLite_1_1Observable.html">U</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRxLite.html#a3e66700c86f5bcea28bd082fcce0f54d">map</a> (<a class="el" href="classRxLite_1_1Observable.html">F</a> &amp;&amp;<a class="el" href="classRxLite_1_1Observable.html">mapFunc</a>)</td></tr>
 <tr class="memdesc:a3e66700c86f5bcea28bd082fcce0f54d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms values emitted by an observable using a mapping function.  <br /></td></tr>
@@ -173,6 +177,45 @@ template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="abaabcbf791c8b2876794ed154e50b157" name="abaabcbf791c8b2876794ed154e50b157"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abaabcbf791c8b2876794ed154e50b157">&#9670;&#160;</a></span>combineLatest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> , typename... Us&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637">Operator</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, std::tuple&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, Us... &gt; &gt; RxLite::combineLatest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classRxLite_1_1Observable.html">Observable</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">Us</a> &gt;...&#160;</td>
+          <td class="paramname"><em>latestObservables</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Combines multiple observables and emits tuples containing the latest values. </p>
+<p>The <code>combineLatest</code> operator takes a source observable emitting values of type <code>T</code> and one or more additional observables emitting values of types <code>Us...</code>. It produces an observable that emits a tuple containing the latest values from all observables, including the source.</p>
+<p>This operator waits until all observables, including the source, have emitted at least one value before emitting its first tuple. Thereafter, it emits a new tuple whenever any of the observables (including the source) emits a new value.</p>
+<p>The resulting observable completes when <b>all</b> observables complete. Errors from any observable are immediately forwarded to the resulting observable.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>The type of values emitted by the source observable. </td></tr>
+    <tr><td class="paramname">Us</td><td>The types of values emitted by the additional observables. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">latestObservables</td><td>One or more observables whose latest values will be combined with the source. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637" title="Defines a transformation function that maps one observable type to another.">Operator&lt;T, std::tuple&lt;T, Us...&gt;&gt;</a> A function that applies the combination logic to an observable. </dd></dl>
+
+</div>
+</div>
 <a id="a3e66700c86f5bcea28bd082fcce0f54d" name="a3e66700c86f5bcea28bd082fcce0f54d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3e66700c86f5bcea28bd082fcce0f54d">&#9670;&#160;</a></span>map()</h2>
 

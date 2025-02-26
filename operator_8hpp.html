@@ -98,30 +98,33 @@ $(document).ready(function(){initNavTree('operator_8hpp.html',''); initResizable
   <div class="headertitle"><div class="title">operator.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;optional&gt;</code><br />
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
 <code>#include &quot;<a class="el" href="observable_8hpp_source.html">observable.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for operator.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="operator_8hpp__incl.png" border="0" usemap="#a_2home_2runner_2work_2RxLite_2RxLite_2src_2include_2operator_8hpp" alt=""/></div>
 <map name="a_2home_2runner_2work_2RxLite_2RxLite_2src_2include_2operator_8hpp" id="a_2home_2runner_2work_2RxLite_2RxLite_2src_2include_2operator_8hpp">
-<area shape="rect" title=" " alt="" coords="5,5,232,45"/>
-<area shape="rect" title=" " alt="" coords="20,93,95,119"/>
-<area shape="poly" title=" " alt="" coords="106,47,77,84,73,81,102,44"/>
-<area shape="rect" href="observable_8hpp.html" title=" " alt="" coords="119,93,241,119"/>
-<area shape="poly" title=" " alt="" coords="136,44,165,81,160,84,131,47"/>
-<area shape="rect" href="subscription_8hpp.html" title=" " alt="" coords="115,167,245,192"/>
-<area shape="poly" title=" " alt="" coords="183,119,183,153,177,153,177,119"/>
-<area shape="rect" title=" " alt="" coords="94,240,157,265"/>
-<area shape="poly" title=" " alt="" coords="173,194,145,231,140,228,169,191"/>
-<area shape="rect" href="observer_8hpp.html" title=" " alt="" coords="181,240,288,265"/>
-<area shape="poly" title=" " alt="" coords="191,191,220,228,215,231,187,194"/>
-<area shape="rect" title=" " alt="" coords="81,313,167,339"/>
-<area shape="poly" title=" " alt="" coords="218,268,155,308,152,303,215,263"/>
-<area shape="rect" title=" " alt="" coords="191,313,278,339"/>
-<area shape="poly" title=" " alt="" coords="237,266,237,300,232,300,232,266"/>
-<area shape="rect" title=" " alt="" coords="303,313,380,339"/>
-<area shape="poly" title=" " alt="" coords="253,263,314,303,311,308,250,268"/>
+<area shape="rect" title=" " alt="" coords="9,5,236,45"/>
+<area shape="rect" title=" " alt="" coords="5,93,61,119"/>
+<area shape="poly" title=" " alt="" coords="103,48,59,86,55,82,99,44"/>
+<area shape="rect" title=" " alt="" coords="85,93,160,119"/>
+<area shape="poly" title=" " alt="" coords="125,46,125,79,120,79,120,46"/>
+<area shape="rect" href="observable_8hpp.html" title=" " alt="" coords="184,93,307,119"/>
+<area shape="poly" title=" " alt="" coords="154,43,217,84,214,88,151,48"/>
+<area shape="rect" href="subscription_8hpp.html" title=" " alt="" coords="181,167,310,192"/>
+<area shape="poly" title=" " alt="" coords="248,119,248,153,243,153,243,119"/>
+<area shape="rect" title=" " alt="" coords="159,240,222,265"/>
+<area shape="poly" title=" " alt="" coords="238,194,210,231,206,228,234,191"/>
+<area shape="rect" href="observer_8hpp.html" title=" " alt="" coords="247,240,353,265"/>
+<area shape="poly" title=" " alt="" coords="256,191,285,228,281,231,252,194"/>
+<area shape="rect" title=" " alt="" coords="146,313,233,339"/>
+<area shape="poly" title=" " alt="" coords="284,268,221,308,218,303,281,263"/>
+<area shape="rect" title=" " alt="" coords="257,313,343,339"/>
+<area shape="poly" title=" " alt="" coords="303,266,303,300,297,300,297,266"/>
+<area shape="rect" title=" " alt="" coords="368,313,445,339"/>
+<area shape="poly" title=" " alt="" coords="319,263,379,303,376,308,316,268"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -151,6 +154,10 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:abaabcbf791c8b2876794ed154e50b157" id="r_abaabcbf791c8b2876794ed154e50b157"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> , typename... Us&gt; </td></tr>
+<tr class="memitem:abaabcbf791c8b2876794ed154e50b157"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637">Operator</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, std::tuple&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, Us... &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRxLite.html#abaabcbf791c8b2876794ed154e50b157">RxLite::combineLatest</a> (<a class="el" href="classRxLite_1_1Observable.html">Observable</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">Us</a> &gt;... <a class="el" href="classRxLite_1_1Observable.html">latestObservables</a>)</td></tr>
+<tr class="memdesc:abaabcbf791c8b2876794ed154e50b157"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines multiple observables and emits tuples containing the latest values.  <br /></td></tr>
+<tr class="separator:abaabcbf791c8b2876794ed154e50b157"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e66700c86f5bcea28bd082fcce0f54d" id="r_a3e66700c86f5bcea28bd082fcce0f54d"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> , <a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">F</a> , <a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">U</a>  = std::invoke_result_t&lt;F, const T&amp;&gt;&gt; </td></tr>
 <tr class="memitem:a3e66700c86f5bcea28bd082fcce0f54d"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceRxLite.html#af6c3b04b576b4f1e1f05b3606c84e637">Operator</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a>, <a class="el" href="classRxLite_1_1Observable.html">U</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceRxLite.html#a3e66700c86f5bcea28bd082fcce0f54d">RxLite::map</a> (<a class="el" href="classRxLite_1_1Observable.html">F</a> &amp;&amp;<a class="el" href="classRxLite_1_1Observable.html">mapFunc</a>)</td></tr>
 <tr class="memdesc:a3e66700c86f5bcea28bd082fcce0f54d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transforms values emitted by an observable using a mapping function.  <br /></td></tr>
