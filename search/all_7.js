@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['installation_0',['🔧 Installation',['../index.html#autotoc_md3',1,'']]],
-  ['introduction_1',['👋 Introduction',['../index.html#autotoc_md1',1,'']]]
+  ['history_0',['history',['../classRxLite_1_1impl_1_1ReplaySubjectBase.html#a6e1c4f36183ffa8ed833546dfaa5ab7d',1,'RxLite::impl::ReplaySubjectBase']]]
 ];

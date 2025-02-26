@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['makesubscription_0',['makeSubscription',['../classRxLite_1_1impl_1_1SubjectBase.html#ab18a8004cb0ede90df0f0183ad4bdae4',1,'RxLite::impl::SubjectBase']]],
-  ['map_1',['map',['../namespaceRxLite.html#a3e66700c86f5bcea28bd082fcce0f54d',1,'RxLite']]]
+  ['latestvalue_0',['latestValue',['../classRxLite_1_1impl_1_1BehaviorSubjectBase.html#adc9d23fcb05f8dc0b438964594e59ac8',1,'RxLite::impl::BehaviorSubjectBase']]],
+  ['lightweight_20reactive_20framework_20for_20c_1',['A Lightweight Reactive Framework for C++',['../index.html',1,'']]]
 ];

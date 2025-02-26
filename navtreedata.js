@@ -25,7 +25,7 @@
 var NAVTREE =
 [
   [ "🪶 RxLite", "index.html", [
-    [ "🪶 Rx​Lite - A Lightweight Reactive Framework for C++", "index.html", "index" ],
+    [ "A Lightweight Reactive Framework for C++", "index.html", "index" ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

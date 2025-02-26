@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>🪶 RxLite: 🪶 Rx​Lite - A Lightweight Reactive Framework for C++</title>
+<title>🪶 RxLite: A Lightweight Reactive Framework for C++</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -91,7 +91,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title">🪶 Rx​Lite - A Lightweight Reactive Framework for C++ </div></div>
+  <div class="headertitle"><div class="title">A Lightweight Reactive Framework for C++ </div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p><a class="anchor" id="md__2home_2runner_2work_2RxLite_2RxLite_2README"></a> </p>
@@ -110,11 +110,15 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </ul>
 <p>Rx​Lite brings the power of reactive programming to C++ in a lightweight and easy-to-use package.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
+📝 Documentation</h1>
+<p>The latest documentation is available here: <a href="https://murloccra4ler.github.io/RxLite/">RxLite Docs</a></p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 🚀 Getting Started</h1>
 <p>Below is a simple example demonstrating how to create an Observable, apply an operator, <br  />
  and subscribe to process emitted values.</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="RxLite_8hpp.html">RxLite.hpp</a>&quot;</span></div>
-<div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="RxLite_8hpp.html">RxLite.hpp</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> main() {</div>
 <div class="line">    <a class="code hl_class" href="classRxLite_1_1Observable.html">RxLite::Subject&lt;int&gt;</a> subject;</div>
@@ -146,9 +150,9 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <div class="ttc" id="aclassRxLite_1_1Observable_html_a360f74d88762af6bb4ece4763ea5be78"><div class="ttname"><a href="classRxLite_1_1Observable.html#a360f74d88762af6bb4ece4763ea5be78">RxLite::Observable::pipe</a></div><div class="ttdeci">auto pipe(First &amp;&amp;first, Rest &amp;&amp;... rest)</div><div class="ttdoc">Applies a sequence of operators to the observable.</div><div class="ttdef"><b>Definition</b> observable.hpp:98</div></div>
 <div class="ttc" id="aclassRxLite_1_1Observable_html_a689ee6976d3920870a97cd695d3a89d2"><div class="ttname"><a href="classRxLite_1_1Observable.html#a689ee6976d3920870a97cd695d3a89d2">RxLite::Observable::subscribe</a></div><div class="ttdeci">Subscription subscribe(Observer&lt; T &gt; subscriber) const</div><div class="ttdoc">Subscribes an observer to the observable.</div><div class="ttdef"><b>Definition</b> observable.hpp:82</div></div>
 <div class="ttc" id="aclassRxLite_1_1Subscription_html"><div class="ttname"><a href="classRxLite_1_1Subscription.html">RxLite::Subscription</a></div><div class="ttdoc">Represents a disposable resource, such as the execution of an Observable.</div><div class="ttdef"><b>Definition</b> subscription.hpp:19</div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md3"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 🔧 Installation</h1>
-<h2><a class="anchor" id="autotoc_md4"></a>
+<h2><a class="anchor" id="autotoc_md5"></a>
 Using CMake FetchContent</h2>
 <p>You can easily integrate <b>Rx​Lite</b> into your CMake project using <code>FetchContent</code>:</p>
 <div class="fragment"><div class="line">include(FetchContent)</div>
@@ -162,7 +166,17 @@ Using CMake FetchContent</h2>
 <div class="line">FetchContent_MakeAvailable(RxLite)</div>
 <div class="line"> </div>
 <div class="line">target_link_libraries(MyProject PRIVATE RxLite)</div>
-</div><!-- fragment --> </div></div><!-- PageDoc -->
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
+🎯 Goals for First Release</h1>
+<p>Before the first official release, the following tasks need to be completed:</p>
+<ul>
+<li>[ ] Implement all operators</li>
+<li>[ ] Implement schedulers</li>
+<li>[ ] Add multithreading support</li>
+<li>[ ] Add a testing framework</li>
+<li>[ ] Write comprehensive documentation </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
