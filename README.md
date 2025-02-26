@@ -1,4 +1,4 @@
-# 🪶 Rx​Lite - A Lightweight Reactive Framework for C++
+# A Lightweight Reactive Framework for C++
 
 ## 👋 Introduction
 
@@ -18,14 +18,19 @@ The core concepts in Rx​Lite are:
 
 Rx​Lite brings the power of reactive programming to C++ in a lightweight and easy-to-use package.
 
+## 📝 Documentation
+
+The latest documentation is available here: [RxLite Docs](https://murloccra4ler.github.io/RxLite/)
+
 ## 🚀 Getting Started
 
 Below is a simple example demonstrating how to create an Observable, apply an operator,  
 and subscribe to process emitted values.
 
 ```cpp
-#include "RxLite.hpp"
 #include <iostream>
+
+#include "RxLite.hpp"
 
 int main() {
     RxLite::Subject<int> subject;
@@ -73,3 +78,13 @@ FetchContent_MakeAvailable(RxLite)
 
 target_link_libraries(MyProject PRIVATE RxLite)
 ```
+
+## 🎯 Goals for First Release
+
+Before the first official release, the following tasks need to be completed:
+
+- [ ] Implement all operators
+- [ ] Implement schedulers
+- [ ] Add multithreading support
+- [ ] Add a testing framework
+- [ ] Write comprehensive documentation
