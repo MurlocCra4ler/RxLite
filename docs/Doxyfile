@@ -7,7 +7,6 @@ MARKDOWN_SUPPORT = YES
 EXTENSION_MAPPING = md=markdown
 USE_MDFILE_AS_MAINPAGE  = ../README.md
 
-
 INPUT                   = ../README.md ../src/include/
 
 RECURSIVE               = YES
