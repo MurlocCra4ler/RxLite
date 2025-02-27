@@ -2,7 +2,7 @@
 
 #include "RxLite.hpp"
 
-TEST(OperatorTestsuite, CombineLatest) {
+TEST(OperatorTestsuite, CombineLatestTest) {
     RxLite::Subject<int> sourceSubject;
     RxLite::Subject<int> latestSubject;
 
@@ -43,7 +43,7 @@ TEST(OperatorTestsuite, CombineLatest) {
     ASSERT_EQ(hasCompleted, true);
 }
 
-TEST(OperatorTestsuite, OperatorTestsuite) {
+TEST(OperatorTestsuite, MapTest) {
     RxLite::Subject<int> subject;
     RxLite::Observable<int> observable = subject.pipe(
         RxLite::map<int>([](int i) {
@@ -65,7 +65,7 @@ TEST(OperatorTestsuite, OperatorTestsuite) {
     ASSERT_EQ(sum, expectedSum);
 }
 
-TEST(OperatorTestsuite, WithLatestFrom) {
+TEST(OperatorTestsuite, WithLatestFromTest) {
     RxLite::Subject<int> sourceSubject;
     RxLite::Subject<int> latestSubject;
 
