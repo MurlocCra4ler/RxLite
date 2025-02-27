@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['🎯_20goals_20for_20first_20release_0',['🎯 Goals for First Release',['../index.html#autotoc_md6',1,'']]]
+  ['_7eobserverbase_0',['~ObserverBase',['../classRxLite_1_1impl_1_1ObserverBase.html#aff01567d4dc8e26ff128961f354fa1c4',1,'RxLite::impl::ObserverBase']]]
 ];

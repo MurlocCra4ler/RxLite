@@ -26,6 +26,16 @@ var NAVTREE =
 [
   [ "🪶 RxLite", "index.html", [
     [ "A Lightweight Reactive Framework for C++", "index.html", "index" ],
+    [ "Observable (under construction)", "md_observable.html", [
+      [ "Pull versus Push", "md_observable.html#autotoc_md8", [
+        [ "What is Pull?", "md_observable.html#autotoc_md9", null ],
+        [ "What is Push?", "md_observable.html#autotoc_md10", null ]
+      ] ],
+      [ "Observables as Generalizations of Functions", "md_observable.html#autotoc_md11", null ],
+      [ "Anatomy of an Observable", "md_observable.html#autotoc_md12", [
+        [ "Creating Observables", "md_observable.html#autotoc_md13", null ]
+      ] ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
