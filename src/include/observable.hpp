@@ -48,10 +48,9 @@ public:
      * @return Observable<T> An observable that emits a single value and then completes.
      */
     static Observable<T> of(T value) {
-        std::function<impl::SharedObserver(const Observer<T>& observer)> onSubscribe = [value](const Observer<T>& observer) {
-            observer.next(value);
-            observer.complete();
-            return nullptr;
+        std::function<void(const Subscriber<T>& subscriber)> onSubscribe = [value](const Subscriber<T>& subscriber) {
+            subscriber.next(value);
+            subscriber.complete();
         };
     
         return Observable<T>(onSubscribe);
@@ -67,13 +66,12 @@ public:
      * @return Observable<T> An observable that emits all values from the vector and then completes.
      */
     static Observable<T> from(std::vector<T> values) {
-        std::function<impl::SharedObserver(const Observer<T>& observer)> onSubscribe = [values](const Observer<T>& observer) {
+        std::function<void(const Subscriber<T>& subscriber)> onSubscribe = [values](const Subscriber<T>& subscriber) {
             for (const auto& t : values) {
-                observer.next(t);
+                subscriber.next(t);
             }
     
-            observer.complete();
-            return nullptr;
+            subscriber.complete();
         };
     
         return Observable<T>(onSubscribe);

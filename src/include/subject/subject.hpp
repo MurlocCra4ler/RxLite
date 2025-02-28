@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <mutex>
 #include <shared_mutex>
 
 #include "observable.hpp"
