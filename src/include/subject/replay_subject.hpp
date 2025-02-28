@@ -26,7 +26,7 @@ class ReplaySubject;
 namespace impl {
 
 template <typename T>
-class ReplaySubjectBase : public SubjectBase {
+class ReplaySubjectBase : public SubjectBase<T> {
 protected:
     const std::shared_ptr<std::deque<T>> history;
     const size_t bufferSize;
@@ -91,13 +91,13 @@ public:
 
 private:
     std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
-        return [subscribers = this->subscribers, history = this->history]
-            (const Observer<T>& observer) -> Subscription {
+        return [sharedManager = this->sharedManager, history = this->history]
+            (const Subscriber<T>& subscriber) -> Subscription {
             for (const T& value : *history) {
-                observer.next(value);
+                subscriber.next(value);
             }
             
-            return impl::SubjectBase::makeSubscription(observer, subscribers);
+            return impl::SubjectBase<T>::makeSubscription(subscriber, sharedManager);
         };
     }
 };

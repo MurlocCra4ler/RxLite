@@ -26,7 +26,7 @@ TEST(SubjectTestsuite, SubjectTest) {
         expectedSum += i * subscriptions.size(); 
     }
 
-    subject.next(INT32_MAX);    
+    subject.next(INT32_MAX);
     ASSERT_EQ(sum, expectedSum);
 }
 

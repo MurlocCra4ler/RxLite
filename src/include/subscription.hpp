@@ -23,7 +23,13 @@ public:
      * 
      * An empty subscription does not hold any observer or child subscriptions.
      */
-    Subscription() {}
+    Subscription() = default;
+
+    ~Subscription() {
+        if (sharedSubscriber && sharedSubscriber.use_count() == 1) {
+            sharedSubscriber->unsubscribe();
+        }
+    }
 
     /**
      * @brief Adds a child subscription.
@@ -33,8 +39,8 @@ public:
      * 
      * @param subscription The child subscription to add.
      */
-    void add(Subscription subscription) {
-        subscriptions.push_back(subscription);
+    void add(Subscription&& subscription) {
+        subscriptions.push_back(std::move(subscription));
     }
 
     /**
@@ -44,18 +50,19 @@ public:
      * After calling `unsubscribe`, the subscription is no longer active.
      */
     void unsubscribe() {
-        if (subscriber) {
-            subscriber = nullptr;
+        if (sharedSubscriber) {
+            sharedSubscriber->unsubscribe();
         }
-
         subscriptions.clear();
     }
 
 protected:
-    Subscription(impl::SharedObserver subscriber) : subscriber(subscriber) {} 
+    template <typename T>
+    Subscription(Subscriber<T> subscriber)
+        : sharedSubscriber(std::make_shared<Subscriber<T>>(std::move(subscriber))) {} 
 
 private:
-    impl::SharedObserver subscriber;
+    std::shared_ptr<impl::SubscriberBase> sharedSubscriber;
     std::vector<Subscription> subscriptions;
 };
 
@@ -68,7 +75,8 @@ namespace impl {
 
 class SubscriptionFactory : public Subscription {
 public:
-    SubscriptionFactory(impl::SharedObserver subscriber) : Subscription(subscriber) {} 
+    template <typename T>
+    SubscriptionFactory(Subscriber<T> subscriber) : Subscription(std::move(subscriber)) {} 
 };
 
 } // namespace impl

@@ -25,7 +25,7 @@ class BehaviorSubject;
 namespace impl {
 
 template <typename T>
-class BehaviorSubjectBase : public SubjectBase {
+class BehaviorSubjectBase : public SubjectBase<T> {
 protected:
     const std::shared_ptr<T> latestValue;
 
@@ -76,11 +76,11 @@ public:
     }
 
 private:
-    std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
-        return [subscribers = this->subscribers, latestValue = this->latestValue]
-            (const Observer<T>& observer) -> Subscription {
-            observer.next(*latestValue);
-            return impl::SubjectBase::makeSubscription(observer, subscribers);
+    std::function<Subscription(const Subscriber<T>&)> createOnSubscribe() {
+        return [sharedManager = this->sharedManager, latestValue = this->latestValue]
+            (const Subscriber<T>& subscriber) -> Subscription {
+            subscriber.next(*latestValue);
+            return impl::SubjectBase<T>::makeSubscription(subscriber, sharedManager);
         };
     }
 };

@@ -7,11 +7,11 @@
 #include "RxLite.hpp"
 
 TEST(ObservableTestsuite, Example1) {
-    RxLite::Observable<int> observable([](const RxLite::Observer<int>& subscriber) {
+    RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([&subscriber]() {
+        std::thread([subscriber]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             subscriber.next(4);
             subscriber.complete();
@@ -19,7 +19,7 @@ TEST(ObservableTestsuite, Example1) {
     });
        
     std::cout << "just before subscribe" << std::endl;
-    observable.subscribe(RxLite::Observer<int>({
+    RxLite::Subscription subscription = observable.subscribe(RxLite::Observer<int>({
         [](int i) {
             std::cout << "got value " << i << std::endl;
         },
@@ -37,7 +37,7 @@ TEST(ObservableTestsuite, Example1) {
 }
 
 TEST(ObservableTestsuite, Example2) {
-    RxLite::Observable<int> foo([](const RxLite::Observer<int>& subscriber) {
+    RxLite::Observable<int> foo([](const RxLite::Subscriber<int>& subscriber) {
         std::cout << "Hello" << std::endl;
         subscriber.next(42);
     });

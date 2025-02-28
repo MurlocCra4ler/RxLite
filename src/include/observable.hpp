@@ -24,10 +24,10 @@ public:
      * 
      * @param onSubscribe A function that takes an `Observer<T>` and defines how values are emitted.
      */
-    explicit Observable(std::function<void(const Observer<T>&)> onSubscribe)
-        : onSubscribe([onSubscribe](const Observer<T>& observer) -> Subscription {
-            onSubscribe(observer);
-            return impl::SubscriptionFactory(std::make_shared<Observer<T>>(observer));
+    explicit Observable(std::function<void(const Subscriber<T>&)> onSubscribe)
+        : onSubscribe([onSubscribe](const Subscriber<T>& subscriber) -> Subscription {
+            onSubscribe(subscriber);
+            return impl::SubscriptionFactory(subscriber);
         }) {}
 
     /**
@@ -76,11 +76,11 @@ public:
      * When an observer subscribes, the observable starts emitting values to it.
      * The returned `Subscription` can be used to unsubscribe from the observable.
      * 
-     * @param subscriber The observer that will receive emitted values.
+     * @param observer The observer that will receive emitted values.
      * @return Subscription An object representing the active subscription.
      */
-    Subscription subscribe(Observer<T> subscriber) const {
-        return onSubscribe(subscriber);
+    Subscription subscribe(Observer<T> observer) const {
+        return onSubscribe(impl::SubscriberFactory(observer));
     }
 
     /**
@@ -104,9 +104,9 @@ public:
     }
 
 protected:
-    std::function<Subscription(const Observer<T>&)> onSubscribe;
+    std::function<Subscription(const Subscriber<T>&)> onSubscribe;
 
-    Observable(std::function<Subscription(const Observer<T>&)> onSubscribe)
+    Observable(std::function<Subscription(const Subscriber<T>&)> onSubscribe)
         : onSubscribe(std::move(onSubscribe)) {}
 };
 
@@ -120,7 +120,7 @@ namespace impl {
 template <typename T>
 class ObservableFactory : public Observable<T> {
 public:
-    ObservableFactory(std::function<Subscription(const Observer<T>&)> onSubscribe)
+    ObservableFactory(std::function<Subscription(const Subscriber<T>&)> onSubscribe)
         : Observable<T>(std::move(onSubscribe)) {} 
 };
 

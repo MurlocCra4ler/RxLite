@@ -10,7 +10,8 @@ USE_MDFILE_AS_MAINPAGE  = ../README.md
 INPUT                   = ../README.md observable.md ../src/include/
 
 RECURSIVE               = YES
-EXTRACT_ALL             = YES
+EXTRACT_PRIVATE         = NO
+EXTRACT_PROTECTED       = NO
 ENABLE_PREPROCESSING    = YES
 EXPAND_ONLY_PREDEF      = YES
 GENERATE_TREEVIEW       = YES

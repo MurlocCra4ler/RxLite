@@ -43,22 +43,22 @@ template <typename T, typename... Us>
 Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservables) {
     return [latestObservables...](const Observable<T>& sourceObservable) {
         return impl::ObservableFactory<std::tuple<T, Us...>>(
-            [sourceObservable, latestObservables...](const Observer<std::tuple<T, Us...>>& observer) {
+            [sourceObservable, latestObservables...](const Subscriber<std::tuple<T, Us...>>& subscriber) {
                 Subscription subscriptions;
                 auto latestValues = std::make_shared<std::tuple<std::optional<T>, std::optional<Us>...>>();
                 auto completedFlags = std::make_shared<std::array<bool, sizeof...(Us) + 1>>();
 
-                auto emitIfReady = [observer, latestValues]() {
+                auto emitIfReady = [subscriber, latestValues]() {
                     if (std::apply([](auto&... values) { return (... && values.has_value()); }, *latestValues)) {
-                        observer.next(std::apply([](auto&... values) {
+                        subscriber.next(std::apply([](auto&... values) {
                             return std::make_tuple(values.value()...);
                         }, *latestValues));
                     }
                 };
 
-                auto completeIfReady = [observer, completedFlags]() {
+                auto completeIfReady = [subscriber, completedFlags]() {
                     if (std::apply([](auto... flags) { return (... && flags); }, *completedFlags)) {
-                        observer.complete();
+                        subscriber.complete();
                     }
                 };
 
@@ -67,7 +67,7 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                         std::get<0>(*latestValues) = t;
                         emitIfReady();
                     },
-                    [observer](const std::exception_ptr& err) { observer.error(err); },
+                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
                     [completedFlags, completeIfReady]() { 
                         completedFlags->at(0) = true;
                         completeIfReady(); 
@@ -84,7 +84,7 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                                         std::get<Is + 1>(*latestValues) = value;
                                         emitIfReady();
                                     },
-                                    [observer](const std::exception_ptr& err) { observer.error(err); },
+                                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
                                     [completedFlags, completeIfReady]() { 
                                         completedFlags->at(Is + 1) = true;
                                         completeIfReady(); 
@@ -119,13 +119,13 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
 template <typename T, typename F, typename U = std::invoke_result_t<F, const T&>>
 Operator<T, U> map(F&& mapFunc) {
     return [mapFunc = std::forward<F>(mapFunc)](const Observable<T>& sourceObservable) {
-        return impl::ObservableFactory<U>([mapFunc, sourceObservable](const Observer<U>& observer) {
+        return impl::ObservableFactory<U>([mapFunc, sourceObservable](const Subscriber<U>& subscriber) {
             Observer<T> intermediateObserver(
-                [mapFunc, observer](const T& t) {
-                    observer.next(std::invoke(mapFunc, t));
+                [mapFunc, subscriber](const T& t) {
+                    subscriber.next(std::invoke(mapFunc, t));
                 },
-                [observer](const std::exception_ptr& err) { observer.error(err); },
-                [observer]() { observer.complete(); }
+                [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
+                [subscriber]() { subscriber.complete(); }
             );
 
             return sourceObservable.subscribe(intermediateObserver);
@@ -159,7 +159,7 @@ template <typename T, typename... Us>
 Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObservables) {
     return [latestObservables...](const Observable<T>& sourceObservable) {
         return impl::ObservableFactory<std::tuple<T, Us...>>(
-            [sourceObservable, latestObservables...](const Observer<std::tuple<T, Us...>>& observer) {
+            [sourceObservable, latestObservables...](const Subscriber<std::tuple<T, Us...>>& subscriber) {
                 auto latestValues = std::make_shared<std::tuple<std::optional<Us>...>>();
 
                 // Function to check if all values in the tuple are set
@@ -180,7 +180,7 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
                                     [latestValues](const Us& value) {
                                         std::get<Is>(*latestValues) = value;
                                     },
-                                    [observer](const std::exception_ptr& err) { observer.error(err); }
+                                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); }
                                 )
                             )
                         ), 0)... // Using comma operator to expand the parameter pack
@@ -192,17 +192,17 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
 
                 // Subscribe to the source observable
                 Observer<T> combinedObserver(
-                    [observer, latestValues, allSet](const T& t) {
+                    [subscriber, latestValues, allSet](const T& t) {
                         if (allSet()) {
-                            observer.next(
+                            subscriber.next(
                                 std::tuple_cat(std::make_tuple(t), 
                                     std::apply([](auto&... values) { return std::make_tuple(values.value()...); }, *latestValues)
                                 )
                             );
                         }
                     },
-                    [observer](const std::exception_ptr& err) { observer.error(err); },
-                    [observer]() { observer.complete(); }
+                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
+                    [subscriber]() { subscriber.complete(); }
                 );
 
                 subscriptions.add(sourceObservable.subscribe(combinedObserver));

@@ -1,4 +1,4 @@
-# Observable (under construction)
+# Observable
 
 Observables are lazy Push collections of multiple values. They fill the missing spot in the following table:
 
@@ -13,11 +13,11 @@ Observables are lazy Push collections of multiple values. They fill the missing 
 #include <RxLite.hpp>
 
 int main() {
-    RxLite::Observable<int> observable([](const RxLite::Observer<int>& subscriber) {
+    RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([&subscriber]() {
+        std::thread([subscriber]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             subscriber.next(4);
             subscriber.complete();
@@ -32,11 +32,11 @@ To invoke the Observable and see these values, we need to *subscribe* to it:
 #include <RxLite.hpp>
 
 int main() {
-    RxLite::Observable<int> observable([](const RxLite::Observer<int>& subscriber) {
+    RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([&subscriber]() {
+        std::thread([subscriber]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             subscriber.next(4);
             subscriber.complete();
@@ -44,7 +44,7 @@ int main() {
     });
        
     std::cout << "just before subscribe" << std::endl;
-    observable.subscribe(RxLite::Observer<int>({
+    RxLite::Subscription subscription = observable.subscribe(RxLite::Observer<int>({
         [](int i) {
             std::cout << "got value " << i << std::endl;
         },
@@ -136,7 +136,7 @@ We expect to see as output:
 You can write the same behavior above, but with Observables:
 
 ```cpp
-RxLite::Observable<int> foo([](const RxLite::Observer<int>& subscriber) {
+RxLite::Observable<int> foo([](const RxLite::Subscriber<int>& subscriber) {
     std::cout << "Hello" << std::endl;
     subscriber.next(42);
 });
@@ -215,7 +215,7 @@ int foo() {
 Functions can only return one value. Observables, however, can do this:
 
 ```cpp
-RxLite::Observable<int> foo([](const RxLite::Observer<int>& subscriber) {
+RxLite::Observable<int> foo([](const RxLite::Subscriber<int>& subscriber) {
     std::cout << "Hello" << std::endl;
     subscriber.next(42);
     subscriber.next(100); // "return" another value
@@ -243,7 +243,7 @@ With synchronous output:
 But you can also "return" values asynchronously:
 
 ```cpp
-RxLite::Observable<int> foo([](const RxLite::Observer<int>& subscriber) {
+RxLite::Observable<int> foo([](const RxLite::Subscriber<int>& subscriber) {
     std::cout << "Hello" << std::endl;
     subscriber.next(42);
     subscriber.next(100);
@@ -255,7 +255,8 @@ RxLite::Observable<int> foo([](const RxLite::Observer<int>& subscriber) {
 });
 
 std::cout << "before" << std::endl;
-foo.subscribe([](int x) {
+// Important: We must hold the returned Subscription to ensure it remains active.
+RxLite::Subscription subscription = foo.subscribe([](int x) {
     std::cout << x << std::endl;
 });
 std::cout << "after" << std::endl
@@ -272,6 +273,8 @@ With output:
 "after"
 300
 ```
+
+**Note**: Since our subscriber function is asynchronous, it will be marked as finished before the function completes, if we dont hold the `Subscription`.
 
 Conclusion:
 
@@ -291,6 +294,122 @@ Core Observable concerns:
 ### Creating Observables
 
 The `Observable` constructor takes one argument: the `onSubscribe` function.
+
+The following example creates an Observable to emit the string `"hi"` every second to a subscriber.
+
+```cpp
+RxLite::Observable<std::string> observable([](const RxLite::Subscriber<std::string>& subscriber) {
+    std::thread([subscriber]() {
+        while (true) {
+            subscriber.next("hi");
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+        }
+    }).detach();
+});
+```
+
+> Observables can be created with its `constructor`. Most commonly, observables are created using creation functions, like `of`, `from`, `interval`, etc.
+
+In the example above, the subscribe function is the most important piece to describe the Observable. Let's look at what `subscribing` means.
+
+### Subscribing to Observables
+
+The Observable `observable` in the example can be subscribed to, like this:
+
+```cpp
+RxLite::Subscription subscription = observable.subscribe([](std::string s)  {
+    std::cout << s << std::endl
+});
+```
+
+Calls to `subscribe` are not shared among multiple Observers of the same Observable. When calling `observable.subscribe` with an Observer, the `onSubscribe` function is run for that given subscriber. Each call to `observable.subscribe` triggers its own independent setup for that given subscriber.
+
+> Subscribing to an Observable is like calling a function, providing callbacks where the data will be delivered to.
+
+With `observable.subscribe`, the given Observer is not registered as a listener in the Observable. The Observable does not even maintain a list of attached Observers. A `subscribe` call is simply a way to start an "Observable execution" and deliver values or events to an Observer of that execution.
+
+### Executing Observables
+
+The code inside the `onSubscribe` represents an "Observable execution", a lazy computation that only happens for each Observer that subscribes. The execution produces multiple values over time, either synchronously or asynchronously.
+
+There are three types of values an Observable Execution can deliver:
+
+ - "Next" notification: sends a value such as a Number, a String, an Object, etc.
+ - "Error" notification: sends a JavaScript Error or exception.
+ - "Complete" notification: does not send a value.
+
+"Next" notifications are the most important and most common type: they represent actual data being delivered to a subscriber. "Error" and "Complete" notifications may happen only once during the Observable Execution, and there can only be either one of them.
+
+```
+next*(error|complete)?
+```
+
+> In an Observable Execution, zero to infinite Next notifications may be delivered. If either an Error or Complete notification is delivered, then nothing else can be delivered afterwards.
+
+The following is an example of an Observable execution that delivers three Next notifications, then completes:
+
+```cpp
+RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
+    subscriber.next(1);
+    subscriber.next(2);
+    subscriber.next(3);
+    subscriber.complete();
+});
+```
+
+Observables strictly adhere to the Observable Contract, so the following code would not deliver the Next notification `4`:
+
+```cpp
+RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
+    subscriber.next(1);
+    subscriber.next(2);
+    subscriber.next(3);
+    subscriber.complete();
+    subscriber.next(4); // Is not delivered because it would violate the contract
+});
+```
+
+It can be a good idea to wrap any code in subscribe with try/catch block that will deliver an Error notification if it catches an exception:
+
+```cpp
+RxLite::Observable<int> observable([](const RxLite::Subscriber<int>& subscriber) {
+    try {
+        subscriber.next(1);
+        subscriber.next(2);
+        subscriber.next(3);
+        subscriber.complete();
+    } catch (...) {
+        subscriber.error(std::current_exception()); // delivers an error if it caught one
+    }
+});
+```
+
+### Disposing Observable Executions
+
+Because Observable Executions may be infinite, and it's common for an Observer to want to abort execution in finite time, we need an API for canceling an execution. Since each execution is exclusive to one Observer only, once the Observer is done receiving values, it has to have a way to stop the execution, in order to avoid wasting computation power or memory resources.
+
+When `observable.subscribe` is called, the Observer becomes a `Subcriber` and gets attached to the newly created Observable execution. This call also returns an object, the Subscription:
+
+```cpp
+RxLite::Subscription subscription = observable.subscribe([](int i)  {
+    std::cout << i << std::endl
+});
+```
+
+The Subscription represents the ongoing execution, and has a minimal API which allows you to cancel that execution. With `subscription.unsubscribe()` you can cancel the ongoing execution:
+
+```cpp
+RxLite::Observable<int> observable = RxLite::Observable<int>::from({10, 20, 30});
+RxLite::Subscription subscription = observable.subscribe([](int i)  {
+    std::cout << i << std::endl
+});
+// Later:
+subscription.unsubscribe();
+```
+
+> When you subscribe, you get back a Subscription, which represents the ongoing execution. Just call unsubscribe() to cancel the execution
+
+If a Subscription gets copied both hold a reference to the ongoing execution. A Subcription can also be added to another Subscription with `subscription.add`. To prevent resource leaks, the execution will be canceled after the last Subcription which holds its reference gets destroyed.
 
 <br><br><br>
 > <small> This documentation is based on the [RxJS documentation](https://rxjs.dev/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes may have been made. </small>

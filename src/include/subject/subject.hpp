@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include <any>
+#include <shared_mutex>
 
 #include "observable.hpp"
 
@@ -24,63 +24,91 @@ class Subject;
  * Users of RxLite should not need to interact with this directly.
  */
 namespace impl {
- 
-class SubjectBase {
-protected:
-    const std::shared_ptr<std::list<impl::SharedObserver>> subscribers;
 
-    SubjectBase() : subscribers(std::make_shared<std::list<impl::SharedObserver>>()) {}
-
-    template<typename T>
-    static Subscription makeSubscription(const Observer<T>& observer,
-                                         const std::shared_ptr<std::list<impl::SharedObserver>>& subscribers) {
-        auto sharedObserver = std::make_shared<Observer<T>>(observer);
-        subscribers->push_back(sharedObserver);
-        return impl::SubscriptionFactory(sharedObserver);
+template <typename T>
+class SubscriberManager {
+public:
+    void add(const Subscriber<T>& subscriber) {
+        std::unique_lock lock(mutex);
+        subscribers.push_back(subscriber);
     }
 
-    template <typename T>
-    void broadcastValue(T& value) const {
-        removeInactiveSubscribers();
+    void removeInactive() {
+        std::unique_lock lock(mutex, std::try_to_lock);
 
-        for (const auto& subscriber : *this->subscribers) {
-            const auto& observer = subscriber->template as<Observer<T>>();
-            observer.next(value);
+        if (!lock.owns_lock()) {
+            return;
         }
+
+        subscribers.remove_if([](const Subscriber<T>& subscriber) {
+            return subscriber.isInactive();
+        });
+    }
+
+    void clear() {
+        std::unique_lock lock(mutex);
+        subscribers.clear();
+    }
+
+    template <typename Func>
+    requires std::invocable<Func, const std::list<Subscriber<T>>&>
+    void read(Func&& func) const {
+        std::shared_lock lock(mutex);
+        func(subscribers);
+    }
+
+private:
+    std::list<Subscriber<T>> subscribers;
+    mutable std::shared_mutex mutex;
+};
+
+template <typename T>
+class SubjectBase {
+protected:
+    const std::shared_ptr<SubscriberManager<T>> sharedManager;
+
+    SubjectBase() : sharedManager(std::make_shared<SubscriberManager<T>>()) {}
+
+    static Subscription makeSubscription(const Subscriber<T>& subscriber,
+                                         const std::shared_ptr<impl::SubscriberManager<T>>& sharedManager) {
+        sharedManager->add(subscriber);
+        return impl::SubscriptionFactory(subscriber);
+    }
+
+    void broadcastValue(const T& value) const {
+        sharedManager->removeInactive();
+        sharedManager->read([&value](const std::list<Subscriber<T>>& subscribers) {
+            for (const auto& subscriber : subscribers) {
+                subscriber.next(value);
+            }
+        });
     }
 
     void broadcastError(const std::exception_ptr& err) {
-        removeInactiveSubscribers();
-
+        sharedManager->removeInactive();
         for (const auto& subscriber : *this->subscribers) {
             subscriber->error(err);
         }
     }
 
     void broadcastCompletion() const {
-        removeInactiveSubscribers();
-
-        for (const auto& subscriber : *this->subscribers) {
-            subscriber->complete();
-        }
-
-        this->subscribers->clear();
-    }
-
-private:
-    void removeInactiveSubscribers() const {
-        this->subscribers->remove_if([](const impl::SharedObserver& subscriber) {
-            return subscriber.use_count() <= 1;
+        sharedManager->removeInactive();
+        sharedManager->read([](const std::list<Subscriber<T>>& subscribers) {
+            for (const auto& subscriber : subscribers) {
+                subscriber.complete();
+            }
         });
+
+        sharedManager->clear();
     }
 };
 
 } // namespace impl
 
 template <typename T>
-class Subject : public impl::SubjectBase, public Observable<T> {
+class Subject : public impl::SubjectBase<T>, public Observable<T> {
 public:
-    Subject() : SubjectBase(), Observable<T>(createOnSubscribe()) {}
+    Subject() : impl::SubjectBase<T>(), Observable<T>(createOnSubscribe()) {}
     
     /**
      * @brief Emit a new value to all subscribers.
@@ -90,7 +118,7 @@ public:
      * @param value The new value to broadcast to subscribers.
      */
     void next(T value) const {
-        broadcastValue(value);
+        this->broadcastValue(value);
     }
 
     /**
@@ -103,7 +131,7 @@ public:
      * @param err The exception pointer representing the error to be broadcast to subscribers.
      */
     void error(const std::exception_ptr& err) const {
-        broadcastError(err);
+        this->broadcastError(err);
     }
 
     /**
@@ -113,13 +141,13 @@ public:
      * After calling `complete()`, any further calls to `next()` or `error()` will have no effect.
      */
     void complete() const {
-        broadcastCompletion();
+        this->broadcastCompletion();
     }
 
 private:
-    std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
-        return [subscribers = this->subscribers](const Observer<T>& observer) -> Subscription {
-            return impl::SubjectBase::makeSubscription(observer, subscribers);
+    std::function<Subscription(const Subscriber<T>&)> createOnSubscribe() {
+        return [sharedManager = this->sharedManager](const Subscriber<T>& Subscriber) -> Subscription {
+            return impl::SubjectBase<T>::makeSubscription(Subscriber, sharedManager);
         };
     }
 };
