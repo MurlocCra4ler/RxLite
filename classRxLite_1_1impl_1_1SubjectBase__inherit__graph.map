@@ -1,13 +1,13 @@
-<map id="RxLite::impl::SubjectBase" name="RxLite::impl::SubjectBase">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,193,88"/>
-<area shape="rect" id="Node000002" href="$classRxLite_1_1Subject.html" title="A concrete Subject class for a specific type." alt="" coords="270,5,427,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,57,292,28,293,33,169,62"/>
-<area shape="rect" id="Node000003" href="$classRxLite_1_1impl_1_1BehaviorSubjectBase.html" title=" " alt="" coords="241,55,456,95"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="207,73,241,73,241,78,207,78"/>
-<area shape="rect" id="Node000005" href="$classRxLite_1_1impl_1_1ReplaySubjectBase.html" title=" " alt="" coords="248,119,449,159"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="164,89,271,117,269,122,162,94"/>
-<area shape="rect" id="Node000004" href="$classRxLite_1_1BehaviorSubject.html" title="A special type of Subject that replays the last emitted value to new subscribers." alt="" coords="504,63,719,88"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="469,73,504,73,504,78,469,78"/>
-<area shape="rect" id="Node000006" href="$classRxLite_1_1ReplaySubject.html" title="A variant of Subject that replays previously emitted values to new subscribers." alt="" coords="510,127,713,152"/>
-<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="463,137,510,137,510,142,463,142"/>
+<map id="RxLite::impl::SubjectBase&lt; T &gt;" name="RxLite::impl::SubjectBase&lt; T &gt;">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,232,88"/>
+<area shape="rect" id="Node000002" href="$classRxLite_1_1Subject.html" title="A concrete Subject class for a specific type." alt="" coords="309,5,466,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,57,327,28,328,33,193,62"/>
+<area shape="rect" id="Node000003" href="$classRxLite_1_1impl_1_1BehaviorSubjectBase.html" title=" " alt="" coords="280,55,495,95"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,73,280,73,280,78,245,78"/>
+<area shape="rect" id="Node000005" href="$classRxLite_1_1impl_1_1ReplaySubjectBase.html" title=" " alt="" coords="287,119,488,159"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="187,89,303,117,302,122,186,94"/>
+<area shape="rect" id="Node000004" href="$classRxLite_1_1BehaviorSubject.html" title="A special type of Subject that replays the last emitted value to new subscribers." alt="" coords="543,63,757,88"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="508,73,542,73,542,78,508,78"/>
+<area shape="rect" id="Node000006" href="$classRxLite_1_1ReplaySubject.html" title="A variant of Subject that replays previously emitted values to new subscribers." alt="" coords="549,127,751,152"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="502,137,548,137,548,142,502,142"/>
 </map>

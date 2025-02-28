@@ -9,7 +9,7 @@ var hierarchy =
     [ "RxLite::impl::ObserverBase", "classRxLite_1_1impl_1_1ObserverBase.html", [
       [ "RxLite::Observer< T >", "classRxLite_1_1Observer.html", null ]
     ] ],
-    [ "RxLite::impl::SubjectBase", "classRxLite_1_1impl_1_1SubjectBase.html", [
+    [ "RxLite::impl::SubjectBase< T >", "classRxLite_1_1impl_1_1SubjectBase.html", [
       [ "RxLite::Subject< T >", "classRxLite_1_1Subject.html", null ],
       [ "RxLite::impl::BehaviorSubjectBase< T >", "classRxLite_1_1impl_1_1BehaviorSubjectBase.html", [
         [ "RxLite::BehaviorSubject< T >", "classRxLite_1_1BehaviorSubject.html", null ]
@@ -18,5 +18,9 @@ var hierarchy =
         [ "RxLite::ReplaySubject< T >", "classRxLite_1_1ReplaySubject.html", null ]
       ] ]
     ] ],
+    [ "RxLite::impl::SubscriberBase", "classRxLite_1_1impl_1_1SubscriberBase.html", [
+      [ "RxLite::Subscriber< T >", "classRxLite_1_1Subscriber.html", null ]
+    ] ],
+    [ "RxLite::impl::SubscriberManager< T >", "classRxLite_1_1impl_1_1SubscriberManager.html", null ],
     [ "RxLite::Subscription", "classRxLite_1_1Subscription.html", null ]
 ];

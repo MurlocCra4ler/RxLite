@@ -1,7 +1,7 @@
 <map id="RxLite::Subject&lt; T &gt;" name="RxLite::Subject&lt; T &gt;">
-<area shape="rect" id="Node000001" title="A concrete Subject class for a specific type." alt="" coords="125,79,282,104"/>
-<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1SubjectBase.html" title=" " alt="" coords="5,5,193,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,36,188,76,185,81,126,41"/>
-<area shape="rect" id="Node000003" href="$classRxLite_1_1Observable.html" title="Represents a sequence of values over time." alt="" coords="217,5,400,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,41,222,81,219,76,279,36"/>
+<area shape="rect" id="Node000001" title="A concrete Subject class for a specific type." alt="" coords="155,79,312,104"/>
+<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1SubjectBase.html" title=" " alt="" coords="5,5,232,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,35,216,76,213,81,147,40"/>
+<area shape="rect" id="Node000003" href="$classRxLite_1_1Observable.html" title="Represents a sequence of values over time." alt="" coords="257,5,439,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="320,40,253,81,251,76,317,35"/>
 </map>

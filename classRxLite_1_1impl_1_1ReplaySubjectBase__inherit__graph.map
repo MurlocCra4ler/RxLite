@@ -1,7 +1,7 @@
 <map id="RxLite::impl::ReplaySubjectBase&lt; T &gt;" name="RxLite::impl::ReplaySubjectBase&lt; T &gt;">
-<area shape="rect" id="Node000001" title=" " alt="" coords="6,79,207,119"/>
-<area shape="rect" id="Node000003" href="$classRxLite_1_1ReplaySubject.html" title="A variant of Subject that replays previously emitted values to new subscribers." alt="" coords="5,167,208,192"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,132,109,166,104,166,104,132"/>
-<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1SubjectBase.html" title=" " alt="" coords="13,5,201,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,44,109,79,104,79,104,44"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="18,79,219,119"/>
+<area shape="rect" id="Node000003" href="$classRxLite_1_1ReplaySubject.html" title="A variant of Subject that replays previously emitted values to new subscribers." alt="" coords="17,167,220,192"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="121,132,121,166,116,166,116,132"/>
+<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1SubjectBase.html" title=" " alt="" coords="5,5,232,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,44,121,79,116,79,116,44"/>
 </map>

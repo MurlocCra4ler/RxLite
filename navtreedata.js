@@ -26,23 +26,21 @@ var NAVTREE =
 [
   [ "🪶 RxLite", "index.html", [
     [ "A Lightweight Reactive Framework for C++", "index.html", "index" ],
-    [ "Observable (under construction)", "md_observable.html", [
+    [ "Observable", "md_observable.html", [
       [ "Pull versus Push", "md_observable.html#autotoc_md8", [
         [ "What is Pull?", "md_observable.html#autotoc_md9", null ],
         [ "What is Push?", "md_observable.html#autotoc_md10", null ]
       ] ],
       [ "Observables as Generalizations of Functions", "md_observable.html#autotoc_md11", null ],
       [ "Anatomy of an Observable", "md_observable.html#autotoc_md12", [
-        [ "Creating Observables", "md_observable.html#autotoc_md13", null ]
+        [ "Creating Observables", "md_observable.html#autotoc_md13", null ],
+        [ "Subscribing to Observables", "md_observable.html#autotoc_md14", null ],
+        [ "Executing Observables", "md_observable.html#autotoc_md15", null ],
+        [ "Disposing Observable Executions", "md_observable.html#autotoc_md16", null ]
       ] ]
     ] ],
     [ "Namespaces", "namespaces.html", [
-      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
-      [ "Namespace Members", "namespacemembers.html", [
-        [ "All", "namespacemembers.html", null ],
-        [ "Functions", "namespacemembers_func.html", null ],
-        [ "Typedefs", "namespacemembers_type.html", null ]
-      ] ]
+      [ "Namespace List", "namespaces.html", null ]
     ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
@@ -50,8 +48,7 @@ var NAVTREE =
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", null ],
-        [ "Functions", "functions_func.html", null ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Functions", "functions_func.html", null ]
       ] ]
     ] ],
     [ "Files", "files.html", [
@@ -62,7 +59,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"RxLite_8hpp.html"
+"RxLite_8hpp_source.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

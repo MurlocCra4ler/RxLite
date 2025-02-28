@@ -93,6 +93,7 @@ $(document).ready(function(){initNavTree('classRxLite_1_1Observer.html',''); ini
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classRxLite_1_1Observer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">RxLite::Observer&lt; T &gt; Class Template Reference</div></div>
 </div><!--header-->
@@ -100,8 +101,6 @@ $(document).ready(function(){initNavTree('classRxLite_1_1Observer.html',''); ini
 
 <p>A concrete <a class="el" href="classRxLite_1_1Observer.html" title="A concrete Observer class for a specific type.">Observer</a> class for a specific type.  
  <a href="classRxLite_1_1Observer.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="observer_8hpp_source.html">observer.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for RxLite::Observer&lt; T &gt;:</div>
 <div class="dyncontent">
@@ -130,24 +129,31 @@ requires std::is_invocable_v&lt;<a class="el" href="classRxLite_1_1Observable.ht
 <tr class="memitem:a5b52ec56a04c6d7947aeb62b37c74c1d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Observer.html#a5b52ec56a04c6d7947aeb62b37c74c1d">Observer</a> (<a class="el" href="classRxLite_1_1Observable.html">OnNext</a> &amp;&amp;onNext, std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>(<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;)&gt; onError=[](<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;) {}, std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>()&gt; onComplete=[]() {})</td></tr>
 <tr class="memdesc:a5b52ec56a04c6d7947aeb62b37c74c1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an <a class="el" href="classRxLite_1_1Observer.html" title="A concrete Observer class for a specific type.">Observer</a> with provided callbacks.  <br /></td></tr>
 <tr class="separator:a5b52ec56a04c6d7947aeb62b37c74c1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b0747ce9e2c1be276b7e951b5ac115a" id="r_a9b0747ce9e2c1be276b7e951b5ac115a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Observer.html#a9b0747ce9e2c1be276b7e951b5ac115a">next</a> (<a class="el" href="classRxLite_1_1Observable.html">T</a> <a class="el" href="classRxLite_1_1Observable.html">t</a>) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
-<tr class="separator:a9b0747ce9e2c1be276b7e951b5ac115a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classRxLite_1_1impl_1_1ObserverBase')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html">RxLite::impl::ObserverBase</a></td></tr>
-<tr class="memitem:aff01567d4dc8e26ff128961f354fa1c4 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_aff01567d4dc8e26ff128961f354fa1c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">virtual</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html#aff01567d4dc8e26ff128961f354fa1c4">~ObserverBase</a> ()=<a class="el" href="classRxLite_1_1Observable.html">default</a></td></tr>
-<tr class="separator:aff01567d4dc8e26ff128961f354fa1c4 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bd98481c40d8a27a667f269581a33d5 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_a6bd98481c40d8a27a667f269581a33d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html#a6bd98481c40d8a27a667f269581a33d5">error</a> (<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;<a class="el" href="classRxLite_1_1Observable.html">err</a>) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
-<tr class="separator:a6bd98481c40d8a27a667f269581a33d5 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addd2ae2254860b3f7262f9b1ba394c03 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_addd2ae2254860b3f7262f9b1ba394c03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html#addd2ae2254860b3f7262f9b1ba394c03">complete</a> () <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
-<tr class="separator:addd2ae2254860b3f7262f9b1ba394c03 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7538b0701e9b805b2d33c20cabf519b7 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_a7538b0701e9b805b2d33c20cabf519b7"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">Derived</a> &gt; </td></tr>
-<tr class="memitem:a7538b0701e9b805b2d33c20cabf519b7 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">Derived</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html#a7538b0701e9b805b2d33c20cabf519b7">as</a> ()</td></tr>
+<tr class="memitem:a7538b0701e9b805b2d33c20cabf519b7 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_a7538b0701e9b805b2d33c20cabf519b7"><td class="memTemplParams" colspan="2">
+template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">Derived</a> &gt; </td></tr>
+<tr class="memitem:a7538b0701e9b805b2d33c20cabf519b7 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">Derived</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><b>as</b> ()</td></tr>
 <tr class="separator:a7538b0701e9b805b2d33c20cabf519b7 inherit pub_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a1dfa29e088c99bfa2527e2e308c1c03e" id="r_a1dfa29e088c99bfa2527e2e308c1c03e"><td class="memItemLeft" align="right" valign="top"><a id="a1dfa29e088c99bfa2527e2e308c1c03e" name="a1dfa29e088c99bfa2527e2e308c1c03e"></a>
+<a class="el" href="classRxLite_1_1Observable.html">class</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Subscriber&lt; T &gt;</b></td></tr>
+<tr class="separator:a1dfa29e088c99bfa2527e2e308c1c03e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_methods_classRxLite_1_1impl_1_1ObserverBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classRxLite_1_1impl_1_1ObserverBase')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html">RxLite::impl::ObserverBase</a></td></tr>
-<tr class="memitem:a324f877dcf56d830e7b3c124c8700413 inherit pro_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_a324f877dcf56d830e7b3c124c8700413"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html#a324f877dcf56d830e7b3c124c8700413">ObserverBase</a> (std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>(<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;)&gt; onError, std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>()&gt; onComplete)</td></tr>
+<tr class="memitem:a324f877dcf56d830e7b3c124c8700413 inherit pro_methods_classRxLite_1_1impl_1_1ObserverBase" id="r_a324f877dcf56d830e7b3c124c8700413"><td class="memItemLeft" align="right" valign="top">
+&#160;</td><td class="memItemRight" valign="bottom"><b>ObserverBase</b> (std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>(<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;)&gt; onError, std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>()&gt; onComplete)</td></tr>
 <tr class="separator:a324f877dcf56d830e7b3c124c8700413 inherit pro_methods_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classRxLite_1_1impl_1_1ObserverBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classRxLite_1_1impl_1_1ObserverBase')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classRxLite_1_1impl_1_1ObserverBase.html">RxLite::impl::ObserverBase</a></td></tr>
+<tr class="memitem:ac2588ff30c01e44bc077a50e3f85744f inherit pro_attribs_classRxLite_1_1impl_1_1ObserverBase" id="r_ac2588ff30c01e44bc077a50e3f85744f"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classRxLite_1_1Observable.html">const</a> std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>(<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onError</b></td></tr>
+<tr class="separator:ac2588ff30c01e44bc077a50e3f85744f inherit pro_attribs_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f7c8f7d30d8afcba882af8dfb79ec68 inherit pro_attribs_classRxLite_1_1impl_1_1ObserverBase" id="r_a6f7c8f7d30d8afcba882af8dfb79ec68"><td class="memItemLeft" align="right" valign="top">
+<a class="el" href="classRxLite_1_1Observable.html">const</a> std::function&lt; <a class="el" href="classRxLite_1_1Observable.html">void</a>()&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onComplete</b></td></tr>
+<tr class="separator:a6f7c8f7d30d8afcba882af8dfb79ec68 inherit pro_attribs_classRxLite_1_1impl_1_1ObserverBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a>&gt;<br />
@@ -220,35 +226,6 @@ requires std::is_invocable_v&lt;<a class="el" href="classRxLite_1_1Observable.ht
   </table>
   </dd>
 </dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9b0747ce9e2c1be276b7e951b5ac115a" name="a9b0747ce9e2c1be276b7e951b5ac115a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b0747ce9e2c1be276b7e951b5ac115a">&#9670;&#160;</a></span>next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classRxLite_1_1Observable.html">void</a> <a class="el" href="classRxLite_1_1Observer.html">RxLite::Observer</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt;::next </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classRxLite_1_1Observable.html">T</a>&#160;</td>
-          <td class="paramname"><em>t</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
 
 </div>
 </div>

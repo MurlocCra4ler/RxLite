@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['combinelatest_0',['combineLatest',['../namespaceRxLite.html#abaabcbf791c8b2876794ed154e50b157',1,'RxLite']]],
-  ['complete_1',['complete',['../classRxLite_1_1impl_1_1ObserverBase.html#addd2ae2254860b3f7262f9b1ba394c03',1,'RxLite::impl::ObserverBase::complete()'],['../classRxLite_1_1BehaviorSubject.html#acad47aeead782b39a807380da53e045e',1,'RxLite::BehaviorSubject::complete()'],['../classRxLite_1_1ReplaySubject.html#a4ec0d7ddf229aeaec1976a0b9c137b77',1,'RxLite::ReplaySubject::complete()'],['../classRxLite_1_1Subject.html#af887fa735cba34c583e53937e0065e6e',1,'RxLite::Subject::complete()']]]
+  ['error_0',['error',['../classRxLite_1_1Subscriber.html#a53fe7fc9a7664db50daf11f2145fc63e',1,'RxLite::Subscriber::error()'],['../classRxLite_1_1BehaviorSubject.html#a1ce889f06504e3ffe37f2989b904c160',1,'RxLite::BehaviorSubject::error()'],['../classRxLite_1_1ReplaySubject.html#adc3d1efd63d7db5620bf7113094478f8',1,'RxLite::ReplaySubject::error()'],['../classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba',1,'RxLite::Subject::error()']]]
 ];
