@@ -90,14 +90,13 @@ public:
     }
 
 private:
-    std::function<Subscription(const Observer<T>&)> createOnSubscribe() {
-        return [sharedManager = this->sharedManager, history = this->history]
-            (const Subscriber<T>& subscriber) -> Subscription {
+    std::function<void(const Observer<T>&)> createOnSubscribe() {
+        return [sharedManager = this->sharedManager, history = this->history](const Subscriber<T>& subscriber) {
             for (const T& value : *history) {
                 subscriber.next(value);
             }
             
-            return impl::SubjectBase<T>::makeSubscription(subscriber, sharedManager);
+            sharedManager->add(subscriber);
         };
     }
 };

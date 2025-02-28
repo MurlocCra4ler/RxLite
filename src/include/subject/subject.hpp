@@ -69,12 +69,6 @@ protected:
 
     SubjectBase() : sharedManager(std::make_shared<SubscriberManager<T>>()) {}
 
-    static Subscription makeSubscription(const Subscriber<T>& subscriber,
-                                         const std::shared_ptr<impl::SubscriberManager<T>>& sharedManager) {
-        sharedManager->add(subscriber);
-        return impl::SubscriptionFactory(subscriber);
-    }
-
     void broadcastValue(const T& value) const {
         sharedManager->removeInactive();
         sharedManager->read([&value](const std::list<Subscriber<T>>& subscribers) {
@@ -145,9 +139,9 @@ public:
     }
 
 private:
-    std::function<Subscription(const Subscriber<T>&)> createOnSubscribe() {
-        return [sharedManager = this->sharedManager](const Subscriber<T>& Subscriber) -> Subscription {
-            return impl::SubjectBase<T>::makeSubscription(Subscriber, sharedManager);
+    std::function<void(const Subscriber<T>&)> createOnSubscribe() {
+        return [sharedManager = this->sharedManager](const Subscriber<T>& subscriber) {
+            sharedManager->add(subscriber);
         };
     }
 };

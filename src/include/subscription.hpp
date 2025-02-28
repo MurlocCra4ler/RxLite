@@ -7,6 +7,8 @@
 
 namespace RxLite {
 
+using TeardownLogic = std::function<void()>;
+
 /**
  * @brief Represents a disposable resource, such as the execution of an Observable.
  * 
@@ -26,8 +28,11 @@ public:
     Subscription() = default;
 
     ~Subscription() {
-        if (sharedSubscriber && sharedSubscriber.use_count() == 1) {
-            sharedSubscriber->unsubscribe();
+        if (sharedExecution && sharedExecution.use_count() == 1) {
+            if (sharedExecution && sharedExecution->running.exchange(false)) {
+                sharedExecution->subscriber.unsubscribe();
+                sharedExecution->teardownLogic(); 
+            }
         }
     }
 
@@ -50,19 +55,30 @@ public:
      * After calling `unsubscribe`, the subscription is no longer active.
      */
     void unsubscribe() {
-        if (sharedSubscriber) {
-            sharedSubscriber->unsubscribe();
-        }
         subscriptions.clear();
+        
+        if (sharedExecution && sharedExecution->running.exchange(false)) {
+            sharedExecution->subscriber.unsubscribe();
+            sharedExecution->teardownLogic();
+        }
     }
 
 protected:
     template <typename T>
-    Subscription(Subscriber<T> subscriber)
-        : sharedSubscriber(std::make_shared<Subscriber<T>>(std::move(subscriber))) {} 
+    Subscription(Subscriber<T> subscriber, TeardownLogic teardownLogic)
+        : sharedExecution(std::make_shared<Execution>(std::move(subscriber), std::move(teardownLogic), true)) {}
 
 private:
-    std::shared_ptr<impl::SubscriberBase> sharedSubscriber;
+    struct Execution {
+        const impl::SubscriberBase subscriber;
+        const TeardownLogic teardownLogic;
+        std::atomic<bool> running;
+
+        Execution(impl::SubscriberBase subscriber, TeardownLogic teardownLogic, bool running)
+            : subscriber(std::move(subscriber)), teardownLogic(std::move(teardownLogic)), running(running) {}
+    };
+
+    std::shared_ptr<Execution> sharedExecution;
     std::vector<Subscription> subscriptions;
 };
 
@@ -76,7 +92,8 @@ namespace impl {
 class SubscriptionFactory : public Subscription {
 public:
     template <typename T>
-    SubscriptionFactory(Subscriber<T> subscriber) : Subscription(std::move(subscriber)) {} 
+    SubscriptionFactory(Subscriber<T> subscriber, TeardownLogic teardownLogic)
+        : Subscription(std::move(subscriber), std::move(teardownLogic)) {} 
 };
 
 } // namespace impl

@@ -49,3 +49,27 @@ TEST(ObservableTestsuite, Example2) {
         std::cout << y << std::endl;
     });
 }
+
+TEST(ObservableTestsuite, Example3) {
+    RxLite::Observable<std::string> observable([](const RxLite::Subscriber<std::string>& subscriber) -> RxLite::TeardownLogic {
+        std::shared_ptr<std::atomic<bool>> stopFlag = std::make_shared<std::atomic<bool>>(false);
+        
+        std::thread([subscriber, stopFlag]() {
+            while (!stopFlag->load()) {
+                subscriber.next("hi");
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+        }).detach();
+    
+        return [stopFlag]() {
+            stopFlag->store(true);
+        };
+    });
+
+    RxLite::Subscription subscription = observable.subscribe([](const std::string& s) {
+        std::cout << s << std::endl;
+    });
+
+    std::this_thread::sleep_for(std::chrono::seconds(8));
+    subscription.unsubscribe();
+}

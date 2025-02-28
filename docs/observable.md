@@ -411,5 +411,46 @@ subscription.unsubscribe();
 
 If a Subscription gets copied both hold a reference to the ongoing execution. A Subcription can also be added to another Subscription with `subscription.add`. To prevent resource leaks, the execution will be canceled after the last Subcription which holds its reference gets destroyed.
 
+Each Subscriber must define how to dispose resources of that execution. You can do that by returning a custom cleanup function from within function `subscribe()`.
+
+For instance, this is how we clear an interval execution set with `std::thread.detach`:
+
+```cpp
+RxLite::Observable<std::string> observable([](const RxLite::Subscriber<std::string>& subscriber) -> RxLite::TeardownLogic {
+        std::shared_ptr<std::atomic<bool>> stopFlag = std::make_shared<std::atomic<bool>>(false);
+        
+        std::thread([subscriber, stopFlag]() {
+            while (!stopFlag->load()) {
+                subscriber.next("hi");
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+            }
+        }).detach();
+    
+        return [stopFlag]() {
+            stopFlag->store(true);
+        };
+    });
+
+    RxLite::Subscription subscription = observable.subscribe([](const std::string& s) {
+        std::cout << s << std::endl;
+    });
+
+    std::this_thread::sleep_for(std::chrono::seconds(6));
+    subscription.unsubscribe(); // dispose the resources
+```
+
+With output:
+
+```cpp
+"hi"
+"hi"
+"hi"
+"hi"
+"hi"
+"hi"
+```
+
+The reason why we use Rx types like Observable, Observer, and Subscription is to get safety (such as the Observable Contract) and composability with Operators.
+
 <br><br><br>
 > <small> This documentation is based on the [RxJS documentation](https://rxjs.dev/), licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Changes may have been made. </small>

@@ -76,11 +76,11 @@ public:
     }
 
 private:
-    std::function<Subscription(const Subscriber<T>&)> createOnSubscribe() {
+    std::function<void(const Subscriber<T>&)> createOnSubscribe() {
         return [sharedManager = this->sharedManager, latestValue = this->latestValue]
-            (const Subscriber<T>& subscriber) -> Subscription {
+            (const Subscriber<T>& subscriber) {
             subscriber.next(*latestValue);
-            return impl::SubjectBase<T>::makeSubscription(subscriber, sharedManager);
+            sharedManager->add(subscriber);
         };
     }
 };

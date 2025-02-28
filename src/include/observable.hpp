@@ -22,13 +22,22 @@ public:
      * 
      * The subscriber function is responsible for emitting values to the provided observer.
      * 
-     * @param onSubscribe A function that takes an `Observer<T>` and defines how values are emitted.
+     * @param onSubscribe A function that takes an `Observer<T>` which defines how values are emitted.
      */
-    explicit Observable(std::function<void(const Subscriber<T>&)> onSubscribe)
-        : onSubscribe([onSubscribe](const Subscriber<T>& subscriber) -> Subscription {
+    template <typename Func>
+    requires std::invocable<Func, const Subscriber<T>&> &&
+             std::same_as<std::invoke_result_t<Func, const Subscriber<T>&>, void>
+    explicit Observable(Func&& onSubscribe)
+        : onSubscribe([onSubscribe = std::forward<Func>(onSubscribe)](const Subscriber<T>& subscriber) {
             onSubscribe(subscriber);
-            return impl::SubscriptionFactory(subscriber);
+            return []() {};  // Default TeardownLogic
         }) {}
+
+    template <typename Func>
+    requires std::invocable<Func, const Subscriber<T>&> &&
+            std::is_same_v<std::invoke_result_t<Func, const Subscriber<T>&>, TeardownLogic>
+    explicit Observable(Func&& onSubscribe)
+        : onSubscribe(std::forward<Func>(onSubscribe)) {}
 
     /**
      * @brief Creates an observable that emits a single value and then completes.
@@ -80,7 +89,9 @@ public:
      * @return Subscription An object representing the active subscription.
      */
     Subscription subscribe(Observer<T> observer) const {
-        return onSubscribe(impl::SubscriberFactory(observer));
+        Subscriber<T> subscriber = impl::SubscriberFactory(observer);
+        TeardownLogic teardownLogic = onSubscribe(subscriber);
+        return impl::SubscriptionFactory(subscriber, teardownLogic);
     }
 
     /**
@@ -104,10 +115,7 @@ public:
     }
 
 protected:
-    std::function<Subscription(const Subscriber<T>&)> onSubscribe;
-
-    Observable(std::function<Subscription(const Subscriber<T>&)> onSubscribe)
-        : onSubscribe(std::move(onSubscribe)) {}
+    std::function<TeardownLogic(const Subscriber<T>&)> onSubscribe;
 };
 
 /**
@@ -120,7 +128,7 @@ namespace impl {
 template <typename T>
 class ObservableFactory : public Observable<T> {
 public:
-    ObservableFactory(std::function<Subscription(const Subscriber<T>&)> onSubscribe)
+    ObservableFactory(std::function<TeardownLogic(const Subscriber<T>&)> onSubscribe)
         : Observable<T>(std::move(onSubscribe)) {} 
 };
 

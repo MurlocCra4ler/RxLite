@@ -96,7 +96,9 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                 };
 
                 subscribeLatest(std::index_sequence_for<Us...>{});
-                return subscriptions;
+                return [subscriptions]() mutable {
+                    subscriptions.unsubscribe();
+                };
             }
         );
     };
@@ -116,9 +118,9 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
  * @param mapFunc A callable that transforms values of type `T` to an output type `U` (deduced automatically).
  * @return Operator<T, U> A function that applies the transformation to an observable.
  */
-template <typename T, typename F, typename U = std::invoke_result_t<F, const T&>>
-Operator<T, U> map(F&& mapFunc) {
-    return [mapFunc = std::forward<F>(mapFunc)](const Observable<T>& sourceObservable) {
+template <typename T, typename Func, typename U = std::invoke_result_t<Func, const T&>>
+Operator<T, U> map(Func&& mapFunc) {
+    return [mapFunc = std::forward<Func>(mapFunc)](const Observable<T>& sourceObservable) {
         return impl::ObservableFactory<U>([mapFunc, sourceObservable](const Subscriber<U>& subscriber) {
             Observer<T> intermediateObserver(
                 [mapFunc, subscriber](const T& t) {
@@ -128,7 +130,9 @@ Operator<T, U> map(F&& mapFunc) {
                 [subscriber]() { subscriber.complete(); }
             );
 
-            return sourceObservable.subscribe(intermediateObserver);
+            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
         });
     };
 }
@@ -206,7 +210,9 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
                 );
 
                 subscriptions.add(sourceObservable.subscribe(combinedObserver));
-                return subscriptions;
+                return [subscriptions]() mutable {
+                    subscriptions.unsubscribe();
+                };
             }
         );
     };

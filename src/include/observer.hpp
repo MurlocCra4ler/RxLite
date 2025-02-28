@@ -57,7 +57,7 @@ protected:
 
 class SubscriberBase {
 public:
-    void unsubscribe() {
+    void unsubscribe() const {
         sharedInactiveFlag->store(true, std::memory_order_relaxed);
     }
 
