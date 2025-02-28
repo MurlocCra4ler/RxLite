@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['observable_0',['observable',['../md_observable.html#autotoc_md12',1,'Anatomy of an Observable'],['../classRxLite_1_1Observable.html',1,'RxLite::Observable&lt; T &gt;'],['../classRxLite_1_1Observable.html#a54afe1eeedb458b9dc214a5887a4b3b3',1,'RxLite::Observable::Observable()'],['../md_observable.html',1,'Observable']]],
+  ['observable_0',['observable',['../md_observable.html#autotoc_md12',1,'Anatomy of an Observable'],['../classRxLite_1_1Observable.html',1,'RxLite::Observable&lt; T &gt;'],['../classRxLite_1_1Observable.html#abb290df2a6824930d2e59eba241456ce',1,'RxLite::Observable::Observable()'],['../md_observable.html',1,'Observable']]],
   ['observable_20executions_1',['Disposing Observable Executions',['../md_observable.html#autotoc_md16',1,'']]],
   ['observablefactory_2',['ObservableFactory',['../classRxLite_1_1impl_1_1ObservableFactory.html',1,'RxLite::impl']]],
   ['observables_3',['observables',['../md_observable.html#autotoc_md13',1,'Creating Observables'],['../md_observable.html#autotoc_md15',1,'Executing Observables'],['../md_observable.html#autotoc_md14',1,'Subscribing to Observables']]],

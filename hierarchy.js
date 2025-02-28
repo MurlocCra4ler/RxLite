@@ -22,5 +22,7 @@ var hierarchy =
       [ "RxLite::Subscriber< T >", "classRxLite_1_1Subscriber.html", null ]
     ] ],
     [ "RxLite::impl::SubscriberManager< T >", "classRxLite_1_1impl_1_1SubscriberManager.html", null ],
-    [ "RxLite::Subscription", "classRxLite_1_1Subscription.html", null ]
+    [ "RxLite::Subscription", "classRxLite_1_1Subscription.html", [
+      [ "RxLite::impl::SubscriptionFactory", "classRxLite_1_1impl_1_1SubscriptionFactory.html", null ]
+    ] ]
 ];

@@ -8,5 +8,6 @@ var searchData=
   ['subscriberbase_5',['SubscriberBase',['../classRxLite_1_1impl_1_1SubscriberBase.html',1,'RxLite::impl']]],
   ['subscribermanager_6',['SubscriberManager',['../classRxLite_1_1impl_1_1SubscriberManager.html',1,'RxLite::impl']]],
   ['subscribing_20to_20observables_7',['Subscribing to Observables',['../md_observable.html#autotoc_md14',1,'']]],
-  ['subscription_8',['subscription',['../classRxLite_1_1Subscription.html',1,'RxLite::Subscription'],['../classRxLite_1_1Subscription.html#a5e34e28bb965a55f79e91e245b7c7814',1,'RxLite::Subscription::Subscription()']]]
+  ['subscription_8',['subscription',['../classRxLite_1_1Subscription.html',1,'RxLite::Subscription'],['../classRxLite_1_1Subscription.html#a5e34e28bb965a55f79e91e245b7c7814',1,'RxLite::Subscription::Subscription()']]],
+  ['subscriptionfactory_9',['SubscriptionFactory',['../classRxLite_1_1impl_1_1SubscriptionFactory.html',1,'RxLite::impl']]]
 ];

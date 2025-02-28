@@ -141,7 +141,7 @@ $(document).ready(function(){initNavTree('observer_8hpp_source.html',''); initRe
 <div class="foldopen" id="foldopen00058" data-start="{" data-end="};">
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classRxLite_1_1impl_1_1SubscriberBase.html">   58</a></span><span class="keyword">class </span><a class="code hl_class" href="classRxLite_1_1impl_1_1SubscriberBase.html">SubscriberBase</a> {</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> unsubscribe() {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> unsubscribe()<span class="keyword"> const </span>{</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        sharedInactiveFlag-&gt;store(<span class="keyword">true</span>, std::memory_order_relaxed);</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
 <div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>

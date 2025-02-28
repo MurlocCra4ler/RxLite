@@ -8,7 +8,8 @@ var annotated_dup =
         [ "ReplaySubjectBase", "classRxLite_1_1impl_1_1ReplaySubjectBase.html", null ],
         [ "SubjectBase", "classRxLite_1_1impl_1_1SubjectBase.html", null ],
         [ "SubscriberBase", "classRxLite_1_1impl_1_1SubscriberBase.html", null ],
-        [ "SubscriberManager", "classRxLite_1_1impl_1_1SubscriberManager.html", null ]
+        [ "SubscriberManager", "classRxLite_1_1impl_1_1SubscriberManager.html", null ],
+        [ "SubscriptionFactory", "classRxLite_1_1impl_1_1SubscriptionFactory.html", null ]
       ] ],
       [ "BehaviorSubject", "classRxLite_1_1BehaviorSubject.html", "classRxLite_1_1BehaviorSubject" ],
       [ "Observable", "classRxLite_1_1Observable.html", "classRxLite_1_1Observable" ],
