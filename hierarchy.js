@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "std::enable_shared_from_this", null, [
+      [ "RxLite::Subscriber< T >", "classRxLite_1_1Subscriber.html", null ]
+    ] ],
     [ "RxLite::Observable< T >", "classRxLite_1_1Observable.html", [
       [ "RxLite::BehaviorSubject< T >", "classRxLite_1_1BehaviorSubject.html", null ],
       [ "RxLite::ReplaySubject< T >", "classRxLite_1_1ReplaySubject.html", null ],

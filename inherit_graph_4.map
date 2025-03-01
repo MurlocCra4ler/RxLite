@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$classRxLite_1_1Subscription.html" title="Represents a disposable resource, such as the execution of an Observable." alt="" coords="5,13,156,38"/>
-<area shape="rect" id="Node000001" href="$classRxLite_1_1impl_1_1SubscriptionFactory.html" title=" " alt="" coords="204,5,392,45"/>
-<area shape="poly" id="edge12_Node000000_Node000001" title=" " alt="" coords="170,23,204,23,204,28,170,28"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="37,5,182,45"/>
+<area shape="rect" id="Node000001" href="$classRxLite_1_1Subscriber.html" title="A Subscriber that observes events from an Observable." alt="" coords="261,42,439,67"/>
+<area shape="poly" id="edge12_Node000000_Node000001" title=" " alt="" coords="196,33,262,41,261,47,195,38"/>
+<area shape="rect" id="Node000002" href="$classRxLite_1_1impl_1_1SubscriberBase.html" title=" " alt="" coords="5,70,213,95"/>
+<area shape="poly" id="edge13_Node000002_Node000001" title=" " alt="" coords="227,66,261,62,261,68,227,72"/>
 </map>
