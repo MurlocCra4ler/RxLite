@@ -28,16 +28,17 @@ public:
     requires std::invocable<Func, const Subscriber<T>&> &&
              std::same_as<std::invoke_result_t<Func, const Subscriber<T>&>, void>
     explicit Observable(Func&& onSubscribe)
-        : onSubscribe([onSubscribe = std::forward<Func>(onSubscribe)](const Subscriber<T>& subscriber) {
-            onSubscribe(subscriber);
-            return []() {};  // Default TeardownLogic
-        }) {}
+        : sharedOnSubscribe(std::make_shared<OnSubcribe>(
+            [onSubscribe = std::forward<Func>(onSubscribe)](const Subscriber<T>& subscriber) {
+                onSubscribe(subscriber);
+                return []() {};  // Default TeardownLogic
+             })) {}
 
     template <typename Func>
     requires std::invocable<Func, const Subscriber<T>&> &&
             std::is_same_v<std::invoke_result_t<Func, const Subscriber<T>&>, TeardownLogic>
     explicit Observable(Func&& onSubscribe)
-        : onSubscribe(std::forward<Func>(onSubscribe)) {}
+        : sharedOnSubscribe(std::make_shared<OnSubcribe>(std::forward<Func>(onSubscribe))) {}
 
     /**
      * @brief Creates an observable that emits a single value and then completes.
@@ -88,7 +89,7 @@ public:
      */
     Subscription subscribe(Observer<T> observer) const {
         impl::SharedSubscriber<T> sharedSubscriber = impl::SubscriberFactory<T>::create(observer);
-        TeardownLogic teardownLogic = onSubscribe(*sharedSubscriber);
+        TeardownLogic teardownLogic = (*sharedOnSubscribe)(*sharedSubscriber);
         return impl::SubscriptionFactory(*sharedSubscriber, teardownLogic);
     }
 
@@ -113,7 +114,9 @@ public:
     }
 
 protected:
-    std::function<TeardownLogic(const Subscriber<T>&)> onSubscribe;
+    using OnSubcribe = std::function<TeardownLogic(const Subscriber<T>&)>;
+
+    const std::shared_ptr<const OnSubcribe> sharedOnSubscribe;
 };
 
 /**

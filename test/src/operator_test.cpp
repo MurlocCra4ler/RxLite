@@ -146,8 +146,45 @@ TEST(OperatorTestsuite, CombinedTest) {
         RxLite::map<size_t>([](size_t x) {
             return x / 25;
         }));
+    RxLite::Observable<size_t> inter5 = inter4.pipe(
+        RxLite::withLatestFrom<size_t>(inter4, inter4),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter6 = inter5.pipe(
+        RxLite::withLatestFrom<size_t>(inter5, inter5),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter7 = inter6.pipe(
+        RxLite::withLatestFrom<size_t>(inter6, inter6),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter8 = inter7.pipe(
+        RxLite::withLatestFrom<size_t>(inter7, inter7),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    
 
     std::vector<size_t> output;
-    inter4.subscribe([&output](double x) { output.push_back(x); });
+    inter8.subscribe([&output](double x) { output.push_back(x); });
     ASSERT_EQ(input, output);
 }
