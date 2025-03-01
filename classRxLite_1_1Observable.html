@@ -94,6 +94,7 @@ $(document).ready(function(){initNavTree('classRxLite_1_1Observable.html',''); i
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pro-types">Protected Types</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classRxLite_1_1Observable-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">RxLite::Observable&lt; T &gt; Class Template Reference</div></div>
@@ -125,13 +126,13 @@ Inheritance diagram for RxLite::Observable&lt; T &gt;:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:abb290df2a6824930d2e59eba241456ce" id="r_abb290df2a6824930d2e59eba241456ce"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">Func</a> &gt; <br />
 requires std::invocable&lt;<a class="el" href="classRxLite_1_1Observable.html">Func</a>, <a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt;<a class="el" href="classRxLite_1_1Observable.html">T</a>&gt;&amp;&gt; &amp;&amp; std::same_as&lt;std::invoke_result_t&lt;<a class="el" href="classRxLite_1_1Observable.html">Func</a>, <a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt;<a class="el" href="classRxLite_1_1Observable.html">T</a>&gt;&amp;&gt;, <a class="el" href="classRxLite_1_1Observable.html">void</a>&gt;</td></tr>
-<tr class="memitem:abb290df2a6824930d2e59eba241456ce"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Observable.html#abb290df2a6824930d2e59eba241456ce">Observable</a> (<a class="el" href="classRxLite_1_1Observable.html">Func</a> &amp;&amp;onSubscribe)</td></tr>
+<tr class="memitem:abb290df2a6824930d2e59eba241456ce"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Observable.html#abb290df2a6824930d2e59eba241456ce">Observable</a> (<a class="el" href="classRxLite_1_1Observable.html">Func</a> &amp;&amp;<a class="el" href="classRxLite_1_1Observable.html">onSubscribe</a>)</td></tr>
 <tr class="memdesc:abb290df2a6824930d2e59eba241456ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an observable with a given subscriber function.  <br /></td></tr>
 <tr class="separator:abb290df2a6824930d2e59eba241456ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a79776b8732a0e85cf160d48c9ee90b05" id="r_a79776b8732a0e85cf160d48c9ee90b05"><td class="memTemplParams" colspan="2"><a id="a79776b8732a0e85cf160d48c9ee90b05" name="a79776b8732a0e85cf160d48c9ee90b05"></a>
 template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a class="el" href="classRxLite_1_1Observable.html">Func</a> &gt; <br />
 requires std::invocable&lt;<a class="el" href="classRxLite_1_1Observable.html">Func</a>, <a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt;<a class="el" href="classRxLite_1_1Observable.html">T</a>&gt;&amp;&gt; &amp;&amp; std::is_same_v&lt;std::invoke_result_t&lt;<a class="el" href="classRxLite_1_1Observable.html">Func</a>, <a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt;<a class="el" href="classRxLite_1_1Observable.html">T</a>&gt;&amp;&gt;, TeardownLogic&gt;</td></tr>
-<tr class="memitem:a79776b8732a0e85cf160d48c9ee90b05"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Observable</b> (<a class="el" href="classRxLite_1_1Observable.html">Func</a> &amp;&amp;onSubscribe)</td></tr>
+<tr class="memitem:a79776b8732a0e85cf160d48c9ee90b05"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Observable</b> (<a class="el" href="classRxLite_1_1Observable.html">Func</a> &amp;&amp;<a class="el" href="classRxLite_1_1Observable.html">onSubscribe</a>)</td></tr>
 <tr class="separator:a79776b8732a0e85cf160d48c9ee90b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a608425b026ac4c1f3b5f01bd1df678f1" id="r_a608425b026ac4c1f3b5f01bd1df678f1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Subscription.html">Subscription</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Observable.html#a608425b026ac4c1f3b5f01bd1df678f1">subscribe</a> (<a class="el" href="classRxLite_1_1Observer.html">Observer</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt; observer) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
 <tr class="memdesc:a608425b026ac4c1f3b5f01bd1df678f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes an observer to the observable.  <br /></td></tr>
@@ -151,11 +152,17 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:a8e8ba5920ed7790cd13a86e332776214"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an observable that emits a sequence of values from a vector.  <br /></td></tr>
 <tr class="separator:a8e8ba5920ed7790cd13a86e332776214"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-types" name="pro-types"></a>
+Protected Types</h2></td></tr>
+<tr class="memitem:a6b867f5803550e48d9e59cdb98d8151b" id="r_a6b867f5803550e48d9e59cdb98d8151b"><td class="memItemLeft" align="right" valign="top"><a id="a6b867f5803550e48d9e59cdb98d8151b" name="a6b867f5803550e48d9e59cdb98d8151b"></a>
+<a class="el" href="classRxLite_1_1Observable.html">using</a>&#160;</td><td class="memItemRight" valign="bottom"><b>OnSubcribe</b> = std::function&lt; TeardownLogic(<a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt; &amp;)&gt;</td></tr>
+<tr class="separator:a6b867f5803550e48d9e59cdb98d8151b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a1eaffe8401d838a4b41130c79f97bd95" id="r_a1eaffe8401d838a4b41130c79f97bd95"><td class="memItemLeft" align="right" valign="top"><a id="a1eaffe8401d838a4b41130c79f97bd95" name="a1eaffe8401d838a4b41130c79f97bd95"></a>
-std::function&lt; TeardownLogic(<a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Subscriber.html">Subscriber</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt; &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><b>onSubscribe</b></td></tr>
-<tr class="separator:a1eaffe8401d838a4b41130c79f97bd95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf7fdd13418c0305ef63e7f524d30fda" id="r_abf7fdd13418c0305ef63e7f524d30fda"><td class="memItemLeft" align="right" valign="top"><a id="abf7fdd13418c0305ef63e7f524d30fda" name="abf7fdd13418c0305ef63e7f524d30fda"></a>
+<a class="el" href="classRxLite_1_1Observable.html">const</a> std::shared_ptr&lt; <a class="el" href="classRxLite_1_1Observable.html">const</a> OnSubcribe &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sharedOnSubscribe</b></td></tr>
+<tr class="separator:abf7fdd13418c0305ef63e7f524d30fda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><div class="compoundTemplParams">template&lt;<a class="el" href="classRxLite_1_1Observable.html#abb290df2a6824930d2e59eba241456ce">typename</a> <a class="el" href="classRxLite_1_1Observable.html#abb290df2a6824930d2e59eba241456ce">T</a>&gt;<br />

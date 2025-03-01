@@ -220,7 +220,7 @@ Observables as Generalizations of Functions</h1>
 <div class="line">foo.subscribe([](<span class="keywordtype">int</span> y) {</div>
 <div class="line">    std::cout &lt;&lt; y &lt;&lt; std::endl;</div>
 <div class="line">});</div>
-<div class="ttc" id="aclassRxLite_1_1Observable_html_a608425b026ac4c1f3b5f01bd1df678f1"><div class="ttname"><a href="classRxLite_1_1Observable.html#a608425b026ac4c1f3b5f01bd1df678f1">RxLite::Observable::subscribe</a></div><div class="ttdeci">Subscription subscribe(Observer&lt; T &gt; observer) const</div><div class="ttdoc">Subscribes an observer to the observable.</div><div class="ttdef"><b>Definition</b> observable.hpp:89</div></div>
+<div class="ttc" id="aclassRxLite_1_1Observable_html_a608425b026ac4c1f3b5f01bd1df678f1"><div class="ttname"><a href="classRxLite_1_1Observable.html#a608425b026ac4c1f3b5f01bd1df678f1">RxLite::Observable::subscribe</a></div><div class="ttdeci">Subscription subscribe(Observer&lt; T &gt; observer) const</div><div class="ttdoc">Subscribes an observer to the observable.</div><div class="ttdef"><b>Definition</b> observable.hpp:90</div></div>
 </div><!-- fragment --><p>And the output is the same:</p>
 <div class="fragment"><div class="line"><span class="stringliteral">&quot;Hello&quot;</span></div>
 <div class="line">42</div>
@@ -402,7 +402,7 @@ Disposing Observable Executions</h2>
 <div class="line">});</div>
 <div class="line"><span class="comment">// Later:</span></div>
 <div class="line">subscription.unsubscribe();</div>
-<div class="ttc" id="aclassRxLite_1_1Observable_html_a8e8ba5920ed7790cd13a86e332776214"><div class="ttname"><a href="classRxLite_1_1Observable.html#a8e8ba5920ed7790cd13a86e332776214">RxLite::Observable::from</a></div><div class="ttdeci">static Observable&lt; T &gt; from(std::vector&lt; T &gt; values)</div><div class="ttdoc">Creates an observable that emits a sequence of values from a vector.</div><div class="ttdef"><b>Definition</b> observable.hpp:68</div></div>
+<div class="ttc" id="aclassRxLite_1_1Observable_html_a8e8ba5920ed7790cd13a86e332776214"><div class="ttname"><a href="classRxLite_1_1Observable.html#a8e8ba5920ed7790cd13a86e332776214">RxLite::Observable::from</a></div><div class="ttdeci">static Observable&lt; T &gt; from(std::vector&lt; T &gt; values)</div><div class="ttdoc">Creates an observable that emits a sequence of values from a vector.</div><div class="ttdef"><b>Definition</b> observable.hpp:69</div></div>
 </div><!-- fragment --><blockquote class="doxtable">
 <p>&zwj;When you subscribe, you get back a Subscription, which represents the ongoing execution. Just call unsubscribe() to cancel the execution </p>
 </blockquote>
