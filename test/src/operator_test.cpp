@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <cmath>
 
 #include "RxLite.hpp"
 
@@ -104,4 +105,49 @@ TEST(OperatorTestsuite, WithLatestFromTest) {
     ASSERT_EQ(hasCompleted, false);
     sourceSubject.complete();
     ASSERT_EQ(hasCompleted, true);
+}
+
+TEST(OperatorTestsuite, CombinedTest) {
+    std::vector<size_t> input = { 1, 2, 3, 4, 5 };
+    RxLite::Observable<size_t> source = RxLite::Observable<size_t>::from(input);
+    RxLite::Observable<size_t> inter1 = source.pipe(
+        RxLite::withLatestFrom<size_t>(source, source),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter2 = inter1.pipe(
+        RxLite::withLatestFrom<size_t>(inter1, inter1),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter3 = inter2.pipe(
+        RxLite::withLatestFrom<size_t>(inter2, inter2),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+    RxLite::Observable<size_t> inter4 = inter3.pipe(
+        RxLite::withLatestFrom<size_t>(inter3, inter3),
+        RxLite::map<std::tuple<size_t, size_t, size_t>>([](const auto& nested) {
+            auto [x, y, z] = nested;
+            return x * y * z;
+        }),
+        RxLite::map<size_t>([](size_t x) {
+            return x / 25;
+        }));
+
+    std::vector<size_t> output;
+    inter4.subscribe([&output](double x) { output.push_back(x); });
+    ASSERT_EQ(input, output);
 }

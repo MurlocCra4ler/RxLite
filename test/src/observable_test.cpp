@@ -11,10 +11,10 @@ TEST(ObservableTestsuite, Example1) {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([subscriber]() {
+        std::thread([subscriber = subscriber.shared_from_this()]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
-            subscriber.next(4);
-            subscriber.complete();
+            subscriber->next(4);
+            subscriber->complete();
         }).detach();
     });
        
@@ -54,9 +54,9 @@ TEST(ObservableTestsuite, Example3) {
     RxLite::Observable<std::string> observable([](const RxLite::Subscriber<std::string>& subscriber) -> RxLite::TeardownLogic {
         std::shared_ptr<std::atomic<bool>> stopFlag = std::make_shared<std::atomic<bool>>(false);
         
-        std::thread([subscriber, stopFlag]() {
+        std::thread([subscriber = subscriber.shared_from_this(), stopFlag]() {
             while (!stopFlag->load()) {
-                subscriber.next("hi");
+                subscriber->next("hi");
                 std::this_thread::sleep_for(std::chrono::seconds(1));
             }
         }).detach();
@@ -70,6 +70,7 @@ TEST(ObservableTestsuite, Example3) {
         std::cout << s << std::endl;
     });
 
-    std::this_thread::sleep_for(std::chrono::seconds(8));
+    std::this_thread::sleep_for(std::chrono::seconds(6));
     subscription.unsubscribe();
+    std::this_thread::sleep_for(std::chrono::seconds(1));
 }

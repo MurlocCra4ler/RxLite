@@ -35,9 +35,6 @@ class Subscriber;
  */
 namespace impl {
 
-class ObserverBase;
-using SharedObserver = std::shared_ptr<ObserverBase>;
-
 class ObserverBase {
 public:
     virtual ~ObserverBase() = default;
@@ -113,7 +110,7 @@ private:
  * @tparam T The type of data received by the subscriber.
  */
 template <typename T>
-class Subscriber : public impl::SubscriberBase {
+class Subscriber : public impl::SubscriberBase, public std::enable_shared_from_this<Subscriber<T>> {
 public:
     /**
      * @brief Receives the next value from the Observable.
@@ -177,8 +174,15 @@ private:
 namespace impl {
 
 template <typename T>
+using SharedSubscriber = std::shared_ptr<Subscriber<T>>;
+
+template <typename T>
 class SubscriberFactory : public Subscriber<T> {
 public:
+    static SharedSubscriber<T> create(Observer<T> observer) {
+        return std::make_shared<SubscriberFactory<T>>(observer);
+    }
+
     SubscriberFactory(Observer<T> observer) : Subscriber<T>(std::move(observer)) {} 
 };
     

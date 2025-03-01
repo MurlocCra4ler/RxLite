@@ -48,17 +48,17 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                 auto latestValues = std::make_shared<std::tuple<std::optional<T>, std::optional<Us>...>>();
                 auto completedFlags = std::make_shared<std::array<bool, sizeof...(Us) + 1>>();
 
-                auto emitIfReady = [subscriber, latestValues]() {
+                auto emitIfReady = [subscriber = subscriber.shared_from_this(), latestValues]() {
                     if (std::apply([](auto&... values) { return (... && values.has_value()); }, *latestValues)) {
-                        subscriber.next(std::apply([](auto&... values) {
+                        subscriber->next(std::apply([](auto&... values) {
                             return std::make_tuple(values.value()...);
                         }, *latestValues));
                     }
                 };
 
-                auto completeIfReady = [subscriber, completedFlags]() {
+                auto completeIfReady = [subscriber = subscriber.shared_from_this(), completedFlags]() {
                     if (std::apply([](auto... flags) { return (... && flags); }, *completedFlags)) {
-                        subscriber.complete();
+                        subscriber->complete();
                     }
                 };
 
@@ -67,7 +67,9 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                         std::get<0>(*latestValues) = t;
                         emitIfReady();
                     },
-                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
+                    [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                        subscriber->error(err); 
+                    },
                     [completedFlags, completeIfReady]() { 
                         completedFlags->at(0) = true;
                         completeIfReady(); 
@@ -84,7 +86,9 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
                                         std::get<Is + 1>(*latestValues) = value;
                                         emitIfReady();
                                     },
-                                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
+                                    [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                                        subscriber->error(err); 
+                                    },
                                     [completedFlags, completeIfReady]() { 
                                         completedFlags->at(Is + 1) = true;
                                         completeIfReady(); 
@@ -123,11 +127,13 @@ Operator<T, U> map(Func&& mapFunc) {
     return [mapFunc = std::forward<Func>(mapFunc)](const Observable<T>& sourceObservable) {
         return impl::ObservableFactory<U>([mapFunc, sourceObservable](const Subscriber<U>& subscriber) {
             Observer<T> intermediateObserver(
-                [mapFunc, subscriber](const T& t) {
-                    subscriber.next(std::invoke(mapFunc, t));
+                [mapFunc, subscriber = subscriber.shared_from_this()](const T& t) {
+                    subscriber->next(std::invoke(mapFunc, t));
                 },
-                [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
-                [subscriber]() { subscriber.complete(); }
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
             );
 
             return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
@@ -184,7 +190,9 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
                                     [latestValues](const Us& value) {
                                         std::get<Is>(*latestValues) = value;
                                     },
-                                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); }
+                                    [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                                        subscriber->error(err);
+                                    }
                                 )
                             )
                         ), 0)... // Using comma operator to expand the parameter pack
@@ -196,17 +204,17 @@ Operator<T, std::tuple<T, Us...>> withLatestFrom(Observable<Us>... latestObserva
 
                 // Subscribe to the source observable
                 Observer<T> combinedObserver(
-                    [subscriber, latestValues, allSet](const T& t) {
+                    [subscriber = subscriber.shared_from_this(), latestValues, allSet](const T& t) {
                         if (allSet()) {
-                            subscriber.next(
+                            subscriber->next(
                                 std::tuple_cat(std::make_tuple(t), 
                                     std::apply([](auto&... values) { return std::make_tuple(values.value()...); }, *latestValues)
                                 )
                             );
                         }
                     },
-                    [subscriber](const std::exception_ptr& err) { subscriber.error(err); },
-                    [subscriber]() { subscriber.complete(); }
+                    [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { subscriber->error(err); },
+                    [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
                 );
 
                 subscriptions.add(sourceObservable.subscribe(combinedObserver));

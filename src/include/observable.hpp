@@ -87,9 +87,9 @@ public:
      * @return Subscription An object representing the active subscription.
      */
     Subscription subscribe(Observer<T> observer) const {
-        Subscriber<T> subscriber = impl::SubscriberFactory(observer);
-        TeardownLogic teardownLogic = onSubscribe(subscriber);
-        return impl::SubscriptionFactory(subscriber, teardownLogic);
+        impl::SharedSubscriber<T> sharedSubscriber = impl::SubscriberFactory<T>::create(observer);
+        TeardownLogic teardownLogic = onSubscribe(*sharedSubscriber);
+        return impl::SubscriptionFactory(*sharedSubscriber, teardownLogic);
     }
 
     /**

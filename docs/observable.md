@@ -17,7 +17,7 @@ int main() {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([subscriber]() {
+        std::thread([subscriber = subscriber.shared_from_this()]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             subscriber.next(4);
             subscriber.complete();
@@ -36,7 +36,7 @@ int main() {
         subscriber.next(1);
         subscriber.next(2);
         subscriber.next(3);
-        std::thread([subscriber]() {
+        std::thread([subscriber = subscriber.shared_from_this()]() {
             std::this_thread::sleep_for(std::chrono::seconds(1));
             subscriber.next(4);
             subscriber.complete();
@@ -248,7 +248,7 @@ RxLite::Observable<int> foo([](const RxLite::Subscriber<int>& subscriber) {
     subscriber.next(42);
     subscriber.next(100);
     subscriber.next(200);
-    std::thread([subscriber]() {
+    std::thread([subscriber = subscriber.shared_from_this()]() {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         subscriber.next(300);
     }).detach();
@@ -299,7 +299,7 @@ The following example creates an Observable to emit the string `"hi"` every seco
 
 ```cpp
 RxLite::Observable<std::string> observable([](const RxLite::Subscriber<std::string>& subscriber) {
-    std::thread([subscriber]() {
+    std::thread([subscriber = subscriber.shared_from_this()]() {
         while (true) {
             subscriber.next("hi");
             std::this_thread::sleep_for(std::chrono::seconds(1));
