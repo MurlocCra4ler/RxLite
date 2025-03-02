@@ -116,7 +116,7 @@ public:
 protected:
     using OnSubcribe = std::function<TeardownLogic(const Subscriber<T>&)>;
 
-    const std::shared_ptr<const OnSubcribe> sharedOnSubscribe;
+    std::shared_ptr<const OnSubcribe> sharedOnSubscribe;
 };
 
 /**
