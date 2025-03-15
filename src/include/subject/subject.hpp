@@ -81,9 +81,11 @@ protected:
 
     void broadcastError(const std::exception_ptr& err) {
         sharedManager->removeInactive();
-        for (const auto& subscriber : *this->subscribers) {
-            subscriber->error(err);
-        }
+        sharedManager->read([&err](const std::list<Subscriber<T>>& subscribers) {
+            for (const auto& subscriber : subscribers) {
+                subscriber.error(err);
+            }
+        });
     }
 
     void broadcastCompletion() const {
