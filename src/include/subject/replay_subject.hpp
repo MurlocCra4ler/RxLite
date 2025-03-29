@@ -47,7 +47,7 @@ public:
      *                   If set to `0`, all values are stored indefinitely.
      */
     ReplaySubject(size_t bufferSize = 0)
-        : impl::ReplaySubjectBase<T>(), Observable<T>(createOnSubscribe()) {}
+        : impl::ReplaySubjectBase<T>(bufferSize), Observable<T>(createOnSubscribe()) {}
 
     /**
      * @brief Emit a new value to all subscribers.
@@ -90,7 +90,7 @@ public:
     }
 
 private:
-    std::function<void(const Observer<T>&)> createOnSubscribe() {
+    std::function<void(const Subscriber<T>&)> createOnSubscribe() {
         return [sharedManager = this->sharedManager, history = this->history](const Subscriber<T>& subscriber) {
             for (const T& value : *history) {
                 subscriber.next(value);
