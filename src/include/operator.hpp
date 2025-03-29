@@ -2,6 +2,7 @@
 
 #include <array>
 #include <optional>
+#include <unordered_set>
 
 #include "observable.hpp"
 
@@ -18,6 +19,94 @@ namespace RxLite {
  */
 template <typename T, typename U>
 using Operator = std::function<Observable<U>(Observable<T>&)>;
+
+/**
+ * @brief Filters out duplicate values from an observable sequence.
+ * 
+ * The `distinct` operator ensures that only unique values are emitted by an observable.
+ * It maintains an internal set of seen values and suppresses any value that has already
+ * been emitted before.
+ * 
+ * This operator does **not** reset its state when the source completes; if the same
+ * `Observable` is resubscribed, previously seen values will still be filtered out.
+ * 
+ * The resulting observable:
+ * - Emits only distinct values from the source.
+ * - Completes when the source completes.
+ * - Forwards any errors from the source.
+ * 
+ * @tparam T The type of values emitted by the source observable.
+ * @return Operator<T, T> A function that applies the distinct filtering logic to an observable.
+ */
+template <typename T>
+Operator<T, T> distinct() {
+    return [](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
+            std::unordered_set<T> seen;
+
+            Observer<T> intermediateObserver(
+                [seen = std::move(seen), subscriber = subscriber.shared_from_this()](const T& t) mutable {
+                    auto [_, inserted] = seen.emplace(t);
+                    if (inserted) {
+                        subscriber->next(t);
+                    }
+                },
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
+            );
+
+            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
+        });
+    };
+}
+
+/**
+ * @brief Filters out consecutive duplicate values from an observable sequence.
+ * 
+ * The `distinctUntilChanged` operator ensures that only values that are different 
+ * from the previously emitted value are passed to the observer. Unlike `distinct()`, 
+ * which filters all previously seen values, this operator only removes **consecutive** duplicates.
+ * 
+ * The first value from the source is always emitted. Afterwards, a new value is only 
+ * emitted if it differs from the last emitted value.
+ * 
+ * The resulting observable:
+ * - Emits values only if they differ from the previous emitted value.
+ * - Completes when the source completes.
+ * - Forwards any errors from the source.
+ * 
+ * @tparam T The type of values emitted by the source observable.
+ * @return Operator<T, T> A function that applies the distinct-until-changed filtering logic to an observable.
+ */
+template <typename T>
+Operator<T, T> distinctUntilChanged() {
+    return [](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
+            std::optional<T> lastValue;
+
+            Observer<T> intermediateObserver(
+                [lastValue = std::move(lastValue), subscriber = subscriber.shared_from_this()](const T& t) mutable {
+                    if (!lastValue || *lastValue != t) { 
+                        subscriber->next(t);
+                        lastValue = t;
+                    }
+                },
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
+            );
+
+            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
+        });
+    };
+}
 
 /**
  * @brief Combines multiple observables and emits tuples containing the latest values.

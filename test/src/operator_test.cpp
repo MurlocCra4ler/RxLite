@@ -66,6 +66,88 @@ TEST(OperatorTestsuite, MapTest) {
     ASSERT_EQ(sum, expectedSum);
 }
 
+TEST(OperatorTestsuite, DistinctTest) {
+    RxLite::Subject<int> sourceSubject;
+
+    // Applying distinctUntilChanged operator
+    RxLite::Observable<int> filteredObservable = sourceSubject.pipe(
+        RxLite::distinct<int>()
+    );
+
+    std::vector<int> results;
+    bool hasCompleted = false;
+
+    RxLite::Observer<int> observer(
+        [&results](int value) { results.push_back(value); },
+        [](const std::exception_ptr&) {},
+        [&hasCompleted]() { hasCompleted = true; }
+    );
+
+    RxLite::Subscription subscription = filteredObservable.subscribe(observer);
+
+    // Emitting values
+    sourceSubject.next(1);  // Emits 1
+    sourceSubject.next(2);  // Emits 2
+    sourceSubject.next(2);  // Ignored (duplicate)
+    sourceSubject.next(3);  // Emits 3
+    sourceSubject.next(4);  // Emits 4
+    sourceSubject.next(5);  // Emits 5
+    sourceSubject.next(2);  // Ignored (duplicate)
+    sourceSubject.next(3);  // Ignored (duplicate)
+    sourceSubject.next(4);  // Ignored (duplicate)
+    sourceSubject.next(5);  // Ignored (duplicate)
+
+    // Expected result: {1, 2, 3, 4, 5}
+    std::vector<int> expectedResults = {1, 2, 3, 4, 5};
+    ASSERT_EQ(results, expectedResults);
+
+    // Test completion
+    ASSERT_EQ(hasCompleted, false);
+    sourceSubject.complete();
+    ASSERT_EQ(hasCompleted, true);
+}
+
+TEST(OperatorTestsuite, DistinctUntilChangedTest) {
+    RxLite::Subject<int> sourceSubject;
+
+    // Applying distinctUntilChanged operator
+    RxLite::Observable<int> filteredObservable = sourceSubject.pipe(
+        RxLite::distinctUntilChanged<int>()
+    );
+
+    std::vector<int> results;
+    bool hasCompleted = false;
+
+    RxLite::Observer<int> observer(
+        [&results](int value) { results.push_back(value); },
+        [](const std::exception_ptr&) {},
+        [&hasCompleted]() { hasCompleted = true; }
+    );
+
+    RxLite::Subscription subscription = filteredObservable.subscribe(observer);
+
+    // Emitting values
+    sourceSubject.next(1);  // Emits 1
+    sourceSubject.next(1);  // Ignored (duplicate)
+    sourceSubject.next(2);  // Emits 2
+    sourceSubject.next(2);  // Ignored (duplicate)
+    sourceSubject.next(3);  // Emits 3
+    sourceSubject.next(3);  // Ignored (duplicate)
+    sourceSubject.next(3);  // Ignored (duplicate)
+    sourceSubject.next(4);  // Emits 4
+    sourceSubject.next(4);  // Ignored (duplicate)
+    sourceSubject.next(5);  // Emits 5
+
+    // Expected result: {1, 2, 3, 4, 5}
+    std::vector<int> expectedResults = {1, 2, 3, 4, 5};
+    ASSERT_EQ(results, expectedResults);
+
+    // Test completion
+    ASSERT_EQ(hasCompleted, false);
+    sourceSubject.complete();
+    ASSERT_EQ(hasCompleted, true);
+}
+
 TEST(OperatorTestsuite, WithLatestFromTest) {
     RxLite::Subject<int> sourceSubject;
     RxLite::Subject<int> latestSubject;
