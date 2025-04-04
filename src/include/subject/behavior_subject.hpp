@@ -29,9 +29,9 @@ namespace impl {
 template <typename T>
 class BehaviorSubjectBase : public SubjectBase<T> {
 protected:
-    const std::shared_ptr<std::reference_wrapper<const T>> latestValue;
+    const std::shared_ptr<T> latestValue;
 
-    BehaviorSubjectBase(const T& latestValue) : latestValue(std::make_shared<std::reference_wrapper<const T>>(latestValue)) {}
+    BehaviorSubjectBase(const T& latestValue) : latestValue(std::make_shared<T>(latestValue)) {}
 };
 
 } // namespace impl
