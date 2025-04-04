@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "subject.hpp"
 
 
@@ -27,9 +29,9 @@ namespace impl {
 template <typename T>
 class BehaviorSubjectBase : public SubjectBase<T> {
 protected:
-    const std::shared_ptr<T> latestValue;
+    const std::shared_ptr<std::reference_wrapper<const T>> latestValue;
 
-    BehaviorSubjectBase(T latestValue) : latestValue(std::make_shared<T>(std::move(latestValue))) {}
+    BehaviorSubjectBase(const T& latestValue) : latestValue(std::make_shared<std::reference_wrapper<const T>>(latestValue)) {}
 };
 
 } // namespace impl
@@ -47,7 +49,7 @@ public:
      * 
      * @param value The new value to broadcast to subscribers.
      */
-    void next(T value) const {
+    void next(const T& value) const {
         this->broadcastValue(value);
         *this->latestValue = value;
     }

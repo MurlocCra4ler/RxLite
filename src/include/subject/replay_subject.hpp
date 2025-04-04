@@ -28,11 +28,11 @@ namespace impl {
 template <typename T>
 class ReplaySubjectBase : public SubjectBase<T> {
 protected:
-    const std::shared_ptr<std::deque<T>> history;
+    const std::shared_ptr<std::deque<std::reference_wrapper<const T>>> history;
     const size_t bufferSize;
 
     ReplaySubjectBase(size_t bufferSize)
-        : history(std::make_shared<std::deque<T>>()), bufferSize(bufferSize) {}
+        : history(std::make_shared<std::deque<std::reference_wrapper<const T>>>()), bufferSize(bufferSize) {}
 };
 
 } // namespace impl
@@ -56,7 +56,7 @@ public:
      * 
      * @param value The new value to broadcast to subscribers.
      */
-    void next(T value) const {
+    void next(const T& value) const {
         this->broadcastValue(value);
 
         if (this->bufferSize && this->history->size() == this->bufferSize) {

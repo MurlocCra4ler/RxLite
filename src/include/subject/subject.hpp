@@ -114,7 +114,7 @@ public:
      * 
      * @param value The new value to broadcast to subscribers.
      */
-    void next(T value) const {
+    void next(const T& value) const {
         this->broadcastValue(value);
     }
 
