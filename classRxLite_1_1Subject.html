@@ -127,9 +127,9 @@ Collaboration diagram for RxLite::Subject&lt; T &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abb233f5883953c52154451e0edb06069" id="r_abb233f5883953c52154451e0edb06069"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Subject.html#abb233f5883953c52154451e0edb06069">next</a> (<a class="el" href="classRxLite_1_1Observable.html">T</a> <a class="el" href="classRxLite_1_1Observable.html">value</a>) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
-<tr class="memdesc:abb233f5883953c52154451e0edb06069"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emit a new value to all subscribers.  <br /></td></tr>
-<tr class="separator:abb233f5883953c52154451e0edb06069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01c10ffda456e62bc20cc5c97ef69526" id="r_a01c10ffda456e62bc20cc5c97ef69526"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Subject.html#a01c10ffda456e62bc20cc5c97ef69526">next</a> (<a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> &amp;<a class="el" href="classRxLite_1_1Observable.html">value</a>) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
+<tr class="memdesc:a01c10ffda456e62bc20cc5c97ef69526"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emit a new value to all subscribers.  <br /></td></tr>
+<tr class="separator:a01c10ffda456e62bc20cc5c97ef69526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9291c61a312d605f6afdbe68b14a7aba" id="r_a9291c61a312d605f6afdbe68b14a7aba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classRxLite_1_1Observable.html">void</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba">error</a> (<a class="el" href="classRxLite_1_1Observable.html">const</a> std::exception_ptr &amp;<a class="el" href="classRxLite_1_1Observable.html">err</a>) <a class="el" href="classRxLite_1_1Observable.html">const</a></td></tr>
 <tr class="memdesc:a9291c61a312d605f6afdbe68b14a7aba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Emits an error to all subscribers.  <br /></td></tr>
 <tr class="separator:a9291c61a312d605f6afdbe68b14a7aba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,7 +225,7 @@ template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a 
 </div><div class="memdoc">
 
 <p>Completes the observable sequence. </p>
-<p>This method notifies all subscribers that no more values will be emitted. After calling <code><a class="el" href="classRxLite_1_1Subject.html#af887fa735cba34c583e53937e0065e6e" title="Completes the observable sequence.">complete()</a></code>, any further calls to <code><a class="el" href="classRxLite_1_1Subject.html#abb233f5883953c52154451e0edb06069" title="Emit a new value to all subscribers.">next()</a></code> or <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code> will have no effect. </p>
+<p>This method notifies all subscribers that no more values will be emitted. After calling <code><a class="el" href="classRxLite_1_1Subject.html#af887fa735cba34c583e53937e0065e6e" title="Completes the observable sequence.">complete()</a></code>, any further calls to <code><a class="el" href="classRxLite_1_1Subject.html#a01c10ffda456e62bc20cc5c97ef69526" title="Emit a new value to all subscribers.">next()</a></code> or <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code> will have no effect. </p>
 
 </div>
 </div>
@@ -256,7 +256,7 @@ template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a 
 </div><div class="memdoc">
 
 <p>Emits an error to all subscribers. </p>
-<p>This method notifies all subscribers that an error has occurred, thereby terminating the observable sequence. After calling <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code>, any subsequent calls to <code><a class="el" href="classRxLite_1_1Subject.html#abb233f5883953c52154451e0edb06069" title="Emit a new value to all subscribers.">next()</a></code>, <code><a class="el" href="classRxLite_1_1Subject.html#af887fa735cba34c583e53937e0065e6e" title="Completes the observable sequence.">complete()</a></code>, or further invocations of <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code> will have no effect.</p>
+<p>This method notifies all subscribers that an error has occurred, thereby terminating the observable sequence. After calling <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code>, any subsequent calls to <code><a class="el" href="classRxLite_1_1Subject.html#a01c10ffda456e62bc20cc5c97ef69526" title="Emit a new value to all subscribers.">next()</a></code>, <code><a class="el" href="classRxLite_1_1Subject.html#af887fa735cba34c583e53937e0065e6e" title="Completes the observable sequence.">complete()</a></code>, or further invocations of <code><a class="el" href="classRxLite_1_1Subject.html#a9291c61a312d605f6afdbe68b14a7aba" title="Emits an error to all subscribers.">error()</a></code> will have no effect.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">err</td><td>The exception pointer representing the error to be broadcast to subscribers. </td></tr>
@@ -266,8 +266,8 @@ template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a 
 
 </div>
 </div>
-<a id="abb233f5883953c52154451e0edb06069" name="abb233f5883953c52154451e0edb06069"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abb233f5883953c52154451e0edb06069">&#9670;&#160;</a></span>next()</h2>
+<a id="a01c10ffda456e62bc20cc5c97ef69526" name="a01c10ffda456e62bc20cc5c97ef69526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01c10ffda456e62bc20cc5c97ef69526">&#9670;&#160;</a></span>next()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -280,7 +280,7 @@ template&lt;<a class="el" href="classRxLite_1_1Observable.html">typename</a> <a 
         <tr>
           <td class="memname"><a class="el" href="classRxLite_1_1Observable.html">void</a> <a class="el" href="classRxLite_1_1Subject.html">RxLite::Subject</a>&lt; <a class="el" href="classRxLite_1_1Observable.html">T</a> &gt;::next </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classRxLite_1_1Observable.html">T</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="classRxLite_1_1Observable.html">const</a> <a class="el" href="classRxLite_1_1Observable.html">T</a> &amp;&#160;</td>
           <td class="paramname"><em>value</em></td><td>)</td>
           <td> const</td>
         </tr>
