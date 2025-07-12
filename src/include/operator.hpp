@@ -21,94 +21,6 @@ template <typename T, typename U>
 using Operator = std::function<Observable<U>(Observable<T>&)>;
 
 /**
- * @brief Filters out duplicate values from an observable sequence.
- * 
- * The `distinct` operator ensures that only unique values are emitted by an observable.
- * It maintains an internal set of seen values and suppresses any value that has already
- * been emitted before.
- * 
- * This operator does **not** reset its state when the source completes; if the same
- * `Observable` is resubscribed, previously seen values will still be filtered out.
- * 
- * The resulting observable:
- * - Emits only distinct values from the source.
- * - Completes when the source completes.
- * - Forwards any errors from the source.
- * 
- * @tparam T The type of values emitted by the source observable.
- * @return Operator<T, T> A function that applies the distinct filtering logic to an observable.
- */
-template <typename T>
-Operator<T, T> distinct() {
-    return [](const Observable<T>& sourceObservable) {
-        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
-            std::unordered_set<T> seen;
-
-            Observer<T> intermediateObserver(
-                [seen = std::move(seen), subscriber = subscriber.shared_from_this()](const T& t) mutable {
-                    auto [_, inserted] = seen.emplace(t);
-                    if (inserted) {
-                        subscriber->next(t);
-                    }
-                },
-                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
-                    subscriber->error(err); 
-                },
-                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
-            );
-
-            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
-                subscription.unsubscribe();
-            };
-        });
-    };
-}
-
-/**
- * @brief Filters out consecutive duplicate values from an observable sequence.
- * 
- * The `distinctUntilChanged` operator ensures that only values that are different 
- * from the previously emitted value are passed to the observer. Unlike `distinct()`, 
- * which filters all previously seen values, this operator only removes **consecutive** duplicates.
- * 
- * The first value from the source is always emitted. Afterwards, a new value is only 
- * emitted if it differs from the last emitted value.
- * 
- * The resulting observable:
- * - Emits values only if they differ from the previous emitted value.
- * - Completes when the source completes.
- * - Forwards any errors from the source.
- * 
- * @tparam T The type of values emitted by the source observable.
- * @return Operator<T, T> A function that applies the distinct-until-changed filtering logic to an observable.
- */
-template <typename T>
-Operator<T, T> distinctUntilChanged() {
-    return [](const Observable<T>& sourceObservable) {
-        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
-            std::optional<T> lastValue;
-
-            Observer<T> intermediateObserver(
-                [lastValue = std::move(lastValue), subscriber = subscriber.shared_from_this()](const T& t) mutable {
-                    if (!lastValue || *lastValue != t) { 
-                        subscriber->next(t);
-                        lastValue = t;
-                    }
-                },
-                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
-                    subscriber->error(err); 
-                },
-                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
-            );
-
-            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
-                subscription.unsubscribe();
-            };
-        });
-    };
-}
-
-/**
  * @brief Combines multiple observables and emits tuples containing the latest values.
  * 
  * The `combineLatest` operator takes a source observable emitting values of type `T` and 
@@ -198,6 +110,94 @@ Operator<T, std::tuple<T, Us...>> combineLatest(Observable<Us>... latestObservab
 }
 
 /**
+ * @brief Filters out duplicate values from an observable sequence.
+ * 
+ * The `distinct` operator ensures that only unique values are emitted by an observable.
+ * It maintains an internal set of seen values and suppresses any value that has already
+ * been emitted before.
+ * 
+ * This operator does **not** reset its state when the source completes; if the same
+ * `Observable` is resubscribed, previously seen values will still be filtered out.
+ * 
+ * The resulting observable:
+ * - Emits only distinct values from the source.
+ * - Completes when the source completes.
+ * - Forwards any errors from the source.
+ * 
+ * @tparam T The type of values emitted by the source observable.
+ * @return Operator<T, T> A function that applies the distinct filtering logic to an observable.
+ */
+template <typename T>
+Operator<T, T> distinct() {
+    return [](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
+            std::unordered_set<T> seen;
+
+            Observer<T> intermediateObserver(
+                [seen = std::move(seen), subscriber = subscriber.shared_from_this()](const T& t) mutable {
+                    auto [_, inserted] = seen.emplace(t);
+                    if (inserted) {
+                        subscriber->next(t);
+                    }
+                },
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
+            );
+
+            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
+        });
+    };
+}
+
+/**
+ * @brief Filters out consecutive duplicate values from an observable sequence.
+ * 
+ * The `distinctUntilChanged` operator ensures that only values that are different 
+ * from the previously emitted value are passed to the observer. Unlike `distinct()`, 
+ * which filters all previously seen values, this operator only removes **consecutive** duplicates.
+ * 
+ * The first value from the source is always emitted. Afterwards, a new value is only 
+ * emitted if it differs from the last emitted value.
+ * 
+ * The resulting observable:
+ * - Emits values only if they differ from the previous emitted value.
+ * - Completes when the source completes.
+ * - Forwards any errors from the source.
+ * 
+ * @tparam T The type of values emitted by the source observable.
+ * @return Operator<T, T> A function that applies the distinct-until-changed filtering logic to an observable.
+ */
+template <typename T>
+Operator<T, T> distinctUntilChanged() {
+    return [](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<T>([sourceObservable](const Subscriber<T>& subscriber) {
+            std::optional<T> lastValue;
+
+            Observer<T> intermediateObserver(
+                [lastValue = std::move(lastValue), subscriber = subscriber.shared_from_this()](const T& t) mutable {
+                    if (!lastValue || *lastValue != t) { 
+                        subscriber->next(t);
+                        lastValue = t;
+                    }
+                },
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this()]() { subscriber->complete(); }
+            );
+
+            return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
+        });
+    };
+}
+
+/**
  * @brief Transforms values emitted by an observable using a mapping function.
  * 
  * The `map` function applies `mapFunc` to each value emitted by the source observable,
@@ -226,6 +226,54 @@ Operator<T, U> map(Func&& mapFunc) {
             );
 
             return [subscription = sourceObservable.subscribe(intermediateObserver)]() mutable {
+                subscription.unsubscribe();
+            };
+        });
+    };
+}
+
+/**
+ * @brief Merges multiple observables of the same value type into a single observable stream.
+ * 
+ * The `merge` function takes multiple observables that emit values of type `T` and 
+ * combines them into a single observable. All values emitted by the source observable 
+ * and the additional input observables will be forwarded to the same downstream subscriber.
+ * 
+ * Completion occurs when all upstream observables complete. Errors are forwarded immediately.
+ * 
+ * @tparam T The common value type emitted by all observables.
+ * @tparam Ts Variadic list of types, all of which must be `T`.
+ * @param observables One or more observables that emit values of type `T`.
+ * @return Operator<T, T> A function that, when applied to an observable, produces a merged observable stream.
+ */
+template <typename T, typename... Ts>
+requires(std::is_same_v<T, Ts> && ...)
+Operator<T, T> merge(const Observable<Ts>&... observables) {
+    return [observables...](const Observable<T>& sourceObservable) {
+        return impl::ObservableFactory<T>([sourceObservable, observables...](const Subscriber<T>& subscriber) {
+            const std::size_t totalSources = sizeof...(Ts) + 1;
+            auto completedCounter = std::make_shared<size_t>(0);
+
+            Observer<T> intermediateObserver(
+                [subscriber = subscriber.shared_from_this()](const T& t) {
+                    subscriber->next(t);
+                },
+                [subscriber = subscriber.shared_from_this()](const std::exception_ptr& err) { 
+                    subscriber->error(err); 
+                },
+                [subscriber = subscriber.shared_from_this(), completedCounter, totalSources]() {
+                    *completedCounter += 1;
+
+                    if (*completedCounter == totalSources) {
+                        subscriber->complete();
+                    }
+                }
+            );
+
+            Subscription subscription = sourceObservable.subscribe(intermediateObserver);
+            (subscription.add(observables.subscribe(intermediateObserver)), ...);
+
+            return [subscription]() mutable {
                 subscription.unsubscribe();
             };
         });
